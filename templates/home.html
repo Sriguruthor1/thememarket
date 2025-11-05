@@ -1,0 +1,1334 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    /* Hero Section */
+    .hero {
+        padding: 3rem 2rem;
+        background-color: var(--light);
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+    }
+    .hero-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+    }
+    .hero-content {
+        flex: 1;
+    }
+    .badge {
+        background: var(--primary);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: bold;
+        display: inline-block;
+        margin-bottom: 1rem;
+    }
+    .hero-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+        color: var(--dark);
+    }
+    .hero-title span {
+        color: var(--secondary);
+    }
+    .hero-text {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        color: var(--gray);
+    }
+    .search-bar {
+        display: flex;
+        border: 2px solid #ddd;
+        border-radius: 30px;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+    }
+    .search-bar input {
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border: none;
+        outline: none;
+        font-size: 1rem;
+    }
+    .search-bar button {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        cursor: pointer;
+        font-weight: bold;
+        transition: var(--transition);
+    }
+    .search-bar button:hover {
+        background: #3cb86a;
+    }
+    .stats {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--purple-gradient);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+    }
+    .stat-text {
+        display: flex;
+        flex-direction: column;
+    }
+    .stat-number {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+    .stat-label {
+        font-size: 0.9rem;
+        color: var(--gray);
+    }
+    .hero-images {
+        flex: 1;
+        position: relative;
+        height: 500px;
+        max-width: 600px;
+    }
+    .hero-template {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        transition: var(--transition);
+        position: absolute;
+    }
+    .hero-template:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    }
+    .hero-template img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .template-bg-left {
+        top: 0;
+        left: 0;
+        width: 45%;
+        height: 60%;
+        z-index: 1;
+    }
+    .template-bg-right {
+        top: 0;
+        right: 0;
+        width: 45%;
+        height: 60%;
+        z-index: 1;
+    }
+    .template-center {
+        top: 20%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 70%;
+        height: 65%;
+        z-index: 2;
+    }
+    .template-animated {
+        bottom: 0;
+        right: 0;
+        width: 35%;
+        height: 35%;
+        z-index: 3;
+        transform: translateY(100%);
+        animation: slideUp 2s ease-out 1s forwards;
+    }
+    @keyframes slideUp {
+        to {
+            transform: translateY(0);
+        }
+    }
+    .template-overlay {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 0.75rem;
+        border-radius: 8px;
+        backdrop-filter: blur(10px);
+    }
+    .template-title {
+        font-weight: bold;
+        font-size: 0.8rem;
+        margin-bottom: 0.2rem;
+        color: var(--dark);
+        line-height: 1.2;
+    }
+    .template-category {
+        font-size: 0.7rem;
+        color: var(--gray);
+    }
+    /* Section Styles */
+    .section {
+        padding: 3rem 2rem;
+        background-color: var(--light);
+    }
+    .section-title {
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        color: white;
+        background: var(--secondary);
+        border-radius: 20px;
+        margin: 0 auto 2rem;
+        width: 431px;
+        height: 61px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+        box-sizing: border-box;
+        line-height: 1.2;
+    }
+    .section-title.featured {
+        width: 475px;
+        height: 55px;
+        padding: 10px 20px;
+        font-size: 1.4rem;
+    }
+    .section-subtitle {
+        text-align: center;
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        color: var(--gray);
+    }
+    /* Category Grid */
+    .category-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .category-card {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        transition: var(--transition);
+        cursor: pointer;
+        border: 1px solid #f1f5f9;
+    }
+    .category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    }
+    .category-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        color: white;
+        font-size: 1.5rem;
+    }
+    .category-icon.wp { background: #1e90ff; }
+    .category-icon.ecommerce { background: #00bcd4; }
+    .category-icon.photography { background: #7b3fe4; }
+    .category-icon.business { background: #8bc34a; }
+    .category-icon.blog { background: #e91e63; }
+    .category-icon.mobile { background: #ff5722; }
+    .category-icon.marketing { background: #daa520; }
+    .category-icon.tech { background: #2196f3; }
+    .category-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+    .category-count {
+        font-size: 0.9rem;
+        color: var(--gray);
+    }
+    /* Theme Grid */
+    .themes-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .theme-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        transition: var(--transition);
+        border: 1px solid #f1f5f9;
+    }
+    .theme-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    }
+    .theme-image {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+    }
+    .theme-content {
+        padding: 1.25rem;
+    }
+    .theme-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--dark);
+        line-height: 1.4;
+    }
+    .theme-author {
+        font-size: 0.85rem;
+        color: var(--gray);
+        margin-bottom: 0.75rem;
+    }
+    .theme-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+    }
+    .theme-price {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--primary);
+    }
+    .theme-rating {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+    .star {
+        color: #fbbf24;
+        font-size: 0.85rem;
+    }
+    .rating-count {
+        font-size: 0.8rem;
+        color: var(--gray);
+        margin-left: 0.25rem;
+    }
+    .theme-sales {
+        font-size: 0.8rem;
+        color: var(--gray);
+        margin-bottom: 1rem;
+    }
+    .theme-actions {
+        display: flex;
+        gap: 0.75rem;
+    }
+    .btn {
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        flex: 1;
+    }
+    .btn-cart {
+        background: var(--accent);
+        color: white;
+        flex: 0 0 auto;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        padding: 0;
+    }
+    .btn-cart:hover {
+        background: #3cb86a;
+        transform: translateY(-1px);
+    }
+    .btn-preview {
+        background: #f8fafc;
+        color: var(--dark);
+        border: 1px solid #e2e8f0;
+    }
+    .btn-preview:hover {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+    }
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 2rem;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .section-header-content {
+        text-align: center;
+        flex: 1;
+    }
+    .view-all-btn {
+        padding: 0.75rem 1.5rem;
+        background: var(--accent);
+        color: white;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: var(--transition);
+        white-space: nowrap;
+    }
+    .view-all-btn:hover {
+        background: #3cb86a;
+        transform: translateY(-2px);
+    }
+    /* Stats Section */
+    .stats-section {
+        background: var(--purple-gradient);
+        color: white;
+        padding: 3rem 2rem;
+        text-align: center;
+    }
+    .stats-grid {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 3rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .stat-card {
+        text-align: center;
+    }
+    .stat-number-large {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+    .stat-label-large {
+        font-size: 1rem;
+    }
+    /* Newsletter */
+    .newsletter {
+        background: #1e293b;
+        color: white;
+        padding: 3rem 2rem;
+        text-align: center;
+    }
+    .newsletter-title {
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+    }
+    .newsletter-subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+    }
+    .subscribe-form {
+        display: flex;
+        max-width: 600px;
+        margin: 0 auto;
+        gap: 0.5rem;
+    }
+    .subscribe-input {
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border-radius: 30px;
+        border: none;
+        outline: none;
+        font-size: 1rem;
+    }
+    .subscribe-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 30px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: var(--transition);
+    }
+    .subscribe-btn:hover {
+        background: #3cb86a;
+    }
+    .subscribe-text {
+        font-size: 0.8rem;
+        margin-top: 1rem;
+        opacity: 0.8;
+    }
+    /* Toggle Buttons */
+    .toggle-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    .toggle-btn {
+        padding: 0.75rem 2rem;
+        border: 2px solid var(--primary);
+        background: white;
+        color: var(--primary);
+        border-radius: 30px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: var(--transition);
+    }
+    .toggle-btn.active {
+        background: var(--primary);
+        color: white;
+    }
+    .toggle-btn:hover {
+        background: var(--primary);
+        color: white;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .hero-container {
+            flex-direction: column;
+        }
+        .hero-title {
+            font-size: 2rem;
+        }
+        .hero-images {
+            height: 400px;
+        }
+        .template-bg-left,
+        .template-bg-right {
+            position: relative;
+            width: 100%;
+            height: 150px;
+            margin-bottom: 1rem;
+        }
+        .template-center {
+            position: relative;
+            top: 0;
+            left: 0;
+            transform: none;
+            width: 100%;
+            height: 200px;
+            margin-bottom: 1rem;
+        }
+        .template-animated {
+            position: relative;
+            width: 100%;
+            height: 150px;
+            transform: none;
+            animation: none;
+        }
+        .category-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .themes-grid {
+            grid-template-columns: 1fr;
+        }
+        .stats-grid {
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .subscribe-form {
+            flex-direction: column;
+        }
+        .toggle-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+    /* Animations */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    .hero-content {
+        animation: fadeIn 0.8s ease-out forwards;
+    }
+    .category-card, .theme-card {
+        animation: fadeIn 0.5s ease-out forwards;
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    .category-grid .category-card:nth-child(1) { animation-delay: 0.1s; }
+    .category-grid .category-card:nth-child(2) { animation-delay: 0.2s; }
+    .category-grid .category-card:nth-child(3) { animation-delay: 0.3s; }
+    .category-grid .category-card:nth-child(4) { animation-delay: 0.4s; }
+    .category-grid .category-card:nth-child(5) { animation-delay: 0.5s; }
+    .category-grid .category-card:nth-child(6) { animation-delay: 0.6s; }
+    .category-grid .category-card:nth-child(7) { animation-delay: 0.7s; }
+    .category-grid .category-card:nth-child(8) { animation-delay: 0.8s; }
+    .themes-grid .theme-card:nth-child(1) { animation-delay: 0.1s; }
+    .themes-grid .theme-card:nth-child(2) { animation-delay: 0.2s; }
+    .themes-grid .theme-card:nth-child(3) { animation-delay: 0.3s; }
+    .themes-grid .theme-card:nth-child(4) { animation-delay: 0.4s; }
+    .themes-grid .theme-card:nth-child(5) { animation-delay: 0.5s; }
+    .themes-grid .theme-card:nth-child(6) { animation-delay: 0.6s; }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-container">
+        <div class="hero-content">
+            {% if hero_banner %}
+                <div class="badge">{{ hero_banner.badge_text }}</div>
+                <h1 class="hero-title">{{ hero_banner.main_title|safe }}</h1>
+                <p class="hero-text">{{ hero_banner.subtitle|safe }}</p>
+                <div class="search-bar">
+                    <input type="text" placeholder="{{ hero_banner.search_placeholder }}">
+                    <button>Search</button>
+                </div>
+            {% else %}
+                <div class="badge">50,000+ Premium Templates Available</div>
+                <h1 class="hero-title">Build Stunning <span>Websites Faster</span></h1>
+                <p class="hero-text">Access thousands of professionally designed WordPress themes and templates. Launch your dream website in minutes, not months.</p>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search for WordPress, E-commerce....">
+                    <button>Search</button>
+                </div>
+            {% endif %}
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-text">
+                        <div class="stat-number">12M+ Users</div>
+                        <div class="stat-label">Trusted worldwide</div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-text">
+                        <div class="stat-number">4.9/5 Rating</div>
+                        <div class="stat-label">From 50k reviews</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-images">
+            {% if hero_banner.hero_images.all %}
+                {% for hero_image in hero_banner.hero_images.all %}
+                    <div class="hero-template {% if hero_image.is_large %}template-large{% else %}template-small{% endif %}">
+                        {% if hero_image.image %}
+                            <img src="{{ hero_image.image.url }}" alt="{{ hero_image.title }}">
+                        {% else %}
+                            <img src="{% static 'images/Themes Images/Dishcovery-Food-Recipe-Hero-Section-Graphics-75526817-1-1-580x387.jpg' %}" alt="{{ hero_image.title }}">
+                        {% endif %}
+                        <div class="template-overlay">
+                            <div class="template-title">{{ hero_image.title }}</div>
+                            <div class="template-category">{{ hero_image.category }}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <!-- Background Templates -->
+                <div class="hero-template template-bg-left">
+                    <img src="{% static 'images/Themes Images/Dishcovery-Food-Recipe-Hero-Section-Graphics-75526817-1-1-580x387.jpg' %}" alt="My Chef Website">
+                    <div class="template-overlay">
+                        <div class="template-title">My Chef</div>
+                        <div class="template-category">Food & Restaurant</div>
+                    </div>
+                </div>
+                <div class="hero-template template-bg-right">
+                    <img src="{% static 'images/Themes Images/website-template-business-marketing.jpg' %}" alt="Recipe Website">
+                    <div class="template-overlay">
+                        <div class="template-title">Taste the World from Your Kitchen</div>
+                        <div class="template-category">Recipe & Cooking</div>
+                    </div>
+                </div>
+                <!-- Center Foreground Template -->
+                <div class="hero-template template-center">
+                    <img src="{% static 'images/Themes Images/hero-header-travel-agency-1024x683.jpg' %}" alt="Travel Website">
+                    <div class="template-overlay">
+                        <div class="template-title">Get Gone on Your Travel</div>
+                        <div class="template-category">Travel & Tourism</div>
+                    </div>
+                </div>
+                <!-- Animated Bottom Template -->
+                <div class="hero-template template-animated">
+                    <img src="{% static 'images/Themes Images/hero-image--popular-items-45e049c6e45b12f43ecafdc960d7bb581203b40857dfce5938af6f43627731d4.png' %}" alt="Chicken Wings Recipe">
+                    <div class="template-overlay">
+                        <div class="template-title">Chicken Wings</div>
+                        <div class="template-category">Recipe & Cooking</div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Browse by Category -->
+<section class="section" id="categories">
+    {% if category_section %}
+        <h2 class="section-title">{{ category_section.title }}</h2>
+        <p class="section-subtitle">{{ category_section.subtitle }}</p>
+    {% else %}
+        <h2 class="section-title">Browse by Category</h2>
+        <p class="section-subtitle">Find the perfect template for your project</p>
+    {% endif %}
+    <div class="category-grid">
+        {% for category in categories %}
+            <div class="category-card">
+                <div class="category-icon" style="background: {{ category.color }}20;">
+                    <i class="{{ category.icon_class }}" style="color: {{ category.color }};"></i>
+                </div>
+                <h3 class="category-title">{{ category.name }}</h3>
+                <p class="category-count">{{ category.themes.count }} Items</p>
+            </div>
+        {% empty %}
+            <div class="category-card">
+                <div class="category-icon wp">
+                    <i class="fab fa-wordpress"></i>
+                </div>
+                <h3 class="category-title">WordPress</h3>
+                <p class="category-count">14,289 Items</p>
+            </div>
+            <div class="category-card">
+                <div class="category-icon ecommerce">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <h3 class="category-title">E-commerce</h3>
+                <p class="category-count">8,562 Items</p>
+            </div>
+        {% endfor %}
+    </div>
+
+</section>
+
+<!-- Featured WordPress Themes -->
+<section class="section">
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <h2 class="section-title featured">Featured WordPress Themes</h2>
+        <p class="section-subtitle">Every week, our staff personally hand-pick some of the best new website themes from our collection.</p>
+    </div>
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <a href="{% url 'themes' %}" class="view-all-btn">View all Featured Themes</a>
+    </div>
+    <div class="themes-grid">
+        <div class="theme-card">
+            <img src="{% static 'images/Frame 1410119443.png' %}" alt="Flatsome Theme" class="theme-image" data-fallback="{% static 'images/Themes Images/admin-dashboard-panel-free-template-ui-02.jpg' %}" onerror="handleImageError(this)">
+            <div class="theme-content">
+                <h3 class="theme-title">Flatsome - Multi-Purpose Responsive Theme</h3>
+                <p class="theme-author">by UX-themes</p>
+                <div class="theme-meta">
+                    <div class="theme-price">₹5,232</div>
+                    <div class="theme-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="rating-count">(205)</span>
+                    </div>
+                </div>
+                <div class="theme-sales">205 Sales</div>
+                <div class="theme-actions">
+                    <button class="btn btn-cart" onclick="addToCart('flatsome')"><i class="fas fa-shopping-cart"></i></button>
+                    <button class="btn btn-preview">Live Preview</button>
+                </div>
+            </div>
+        </div>
+        <div class="theme-card">
+            <img src="{% static 'images/Frame 1410119442.png' %}" alt="Restaurant Website" class="theme-image" data-fallback="{% static 'images/Themes Images/website-template-business-marketing.jpg' %}" onerror="handleImageError(this)">
+            <div class="theme-content">
+                <h3 class="theme-title">Restaurant Website - Food & Drink Theme</h3>
+                <p class="theme-author">by ThemeForest</p>
+                <div class="theme-meta">
+                    <div class="theme-price">₹4,345</div>
+                    <div class="theme-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="rating-count">(156)</span>
+                    </div>
+                </div>
+                <div class="theme-sales">156 Sales</div>
+                <div class="theme-actions">
+                    <button class="btn btn-cart" onclick="addToCart('restaurant')"><i class="fas fa-shopping-cart"></i></button>
+                    <button class="btn btn-preview">Live Preview</button>
+                </div>
+            </div>
+        </div>
+        <div class="theme-card">
+            <img src="{% static 'images/Frame 1410119443 (1).png' %}" alt="Avada Theme" class="theme-image" data-fallback="{% static 'images/Themes Images/65343-big.jpg' %}" onerror="handleImageError(this)">
+            <div class="theme-content">
+                <h3 class="theme-title">Avada - Website Builder For WordPress & WooCommerce</h3>
+                <p class="theme-author">by ThemeFusion</p>
+                <div class="theme-meta">
+                    <div class="theme-price">₹6,118</div>
+                    <div class="theme-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="rating-count">(89)</span>
+                    </div>
+                </div>
+                <div class="theme-sales">89 Sales</div>
+                <div class="theme-actions">
+                    <button class="btn btn-cart" onclick="addToCart('avada')"><i class="fas fa-shopping-cart"></i></button>
+                    <button class="btn btn-preview">Live Preview</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <div class="themes-grid">
+        <div class="theme-card">
+            <img src="{% static 'images/Frame 1410119443 (5).png' %}" alt="Flatsome Multi-Purpose" class="theme-image">
+            <div class="theme-content">
+                <h3 class="theme-title">Flatsome - Multi-Purpose</h3>
+                <p class="theme-author">by UX-themes</p>
+                <div class="theme-meta">
+                    <div class="theme-price">₹1,064</div>
+                    <div class="theme-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="rating-count">6</span>
+                    </div>
+                </div>
+                <div class="theme-sales">205 Sales</div>
+                <div class="theme-actions">
+                    <button class="btn btn-cart" onclick="addToCart('flatsome2')"><i class="fas fa-shopping-cart"></i></button>
+                    <button class="btn btn-preview">Live Preview</button>
+                </div>
+            </div>
+        </div>
+        <div class="theme-card">
+            <img src="{% static 'images/Frame 1410119443 (6).png' %}" alt="Avada Website Builder" class="theme-image">
+            <div class="theme-content">
+                <h3 class="theme-title">Avada - Website Builder For</h3>
+                <p class="theme-author">by UX-themes</p>
+                <div class="theme-meta">
+                    <div class="theme-price">₹1,685</div>
+                    <div class="theme-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="rating-count">6</span>
+                    </div>
+                </div>
+                <div class="theme-sales">205 Sales</div>
+                <div class="theme-actions">
+                    <button class="btn btn-cart" onclick="addToCart('avada2')"><i class="fas fa-shopping-cart"></i></button>
+                    <button class="btn btn-preview">Live Preview</button>
+                </div>
+            </div>
+        </div>
+        <div class="theme-card">
+            <img src="{% static 'images/Frame 1410119443 (7).png' %}" alt="Food Delivery Website" class="theme-image">
+            <div class="theme-content">
+                <h3 class="theme-title">Food Delivery Website</h3>
+                <p class="theme-author">by UX-themes</p>
+                <div class="theme-meta">
+                    <div class="theme-price">₹2,217</div>
+                    <div class="theme-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="rating-count">6</span>
+                    </div>
+                </div>
+                <div class="theme-sales">205 Sales</div>
+                <div class="theme-actions">
+                    <button class="btn btn-cart" onclick="addToCart('food')"><i class="fas fa-shopping-cart"></i></button>
+                    <button class="btn btn-preview">Live Preview</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Trending Collections Section -->
+<section class="section">
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <h2 class="section-title featured">Trending Collection</h2>
+        <p class="section-subtitle">Curated collections from our experts</p>
+    </div>
+    <div class="themes-grid">
+        <div class="theme-card">
+            <img src="{% static 'images/Frame 1410119467.png' %}" alt="Business Theme" class="theme-image">
+            <div class="theme-content">
+                <h3 class="theme-title">Business Pro - Corporate</h3>
+                <p class="theme-author">by BusinessThemes</p>
+                <div class="theme-meta">
+                    <div class="theme-price">₹3,990</div>
+                    <div class="theme-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="rating-count">(312)</span>
+                    </div>
+                </div>
+                <div class="theme-sales">312 Sales</div>
+                <div class="theme-actions">
+                    <button class="btn btn-cart" onclick="addToCart('business-pro')"><i class="fas fa-shopping-cart"></i></button>
+                    <button class="btn btn-preview">Live Preview</button>
+                </div>
+            </div>
+        </div>
+        <div class="theme-card">
+            <img src="{% static 'images/Frame 1410119468.png' %}" alt="Creative Theme" class="theme-image">
+            <div class="theme-content">
+                <h3 class="theme-title">Creative Studio - Agency</h3>
+                <p class="theme-author">by CreativeTeam</p>
+                <div class="theme-meta">
+                    <div class="theme-price">₹2,571</div>
+                    <div class="theme-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="rating-count">(198)</span>
+                    </div>
+                </div>
+                <div class="theme-sales">198 Sales</div>
+                <div class="theme-actions">
+                    <button class="btn btn-cart" onclick="addToCart('creative-studio')"><i class="fas fa-shopping-cart"></i></button>
+                    <button class="btn btn-preview">Live Preview</button>
+                </div>
+            </div>
+        </div>
+        <div class="theme-card">
+            <img src="{% static 'images/Frame 1410119469.png' %}" alt="E-commerce Theme" class="theme-image">
+            <div class="theme-content">
+                <h3 class="theme-title">ShopMaster - E-commerce</h3>
+                <p class="theme-author">by ShopThemes</p>
+                <div class="theme-meta">
+                    <div class="theme-price">₹3,458</div>
+                    <div class="theme-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="rating-count">(267)</span>
+                    </div>
+                </div>
+                <div class="theme-sales">267 Sales</div>
+                <div class="theme-actions">
+                    <button class="btn btn-cart" onclick="addToCart('shopmaster-ecom')"><i class="fas fa-shopping-cart"></i></button>
+                    <button class="btn btn-preview">Live Preview</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Trusted by Millions Stats -->
+<section class="stats-section">
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-number-large">12M+</div>
+            <div class="stat-label-large">Happy Customers</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number-large">50K+</div>
+            <div class="stat-label-large">Premium Templates</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number-large">99.9%</div>
+            <div class="stat-label-large">Uptime Guarantee</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number-large">24/7</div>
+            <div class="stat-label-large">Customer Support</div>
+        </div>
+    </div>
+</section>
+
+<!-- Best Sellers Section -->
+<section class="section">
+    <h2 style="text-align: center; font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; color: #7c3aed; background: none; border-radius: 0; width: auto; height: auto; display: block; padding: 0;">Best Sellers</h2>
+    <p class="section-subtitle">Top selling items this period</p>
+    
+    <!-- Toggle Buttons -->
+    <div style="display: flex; justify-content: center; margin-bottom: 2rem;">
+        <div style="background: #e5e7eb; border-radius: 30px; padding: 6px; display: flex; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+            <button id="week-btn" onclick="switchPeriod('week')" style="background: #4ade80; color: white; border: none; padding: 12px 24px; border-radius: 24px; font-weight: 600; cursor: pointer; font-size: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: all 0.3s ease;">This Week</button>
+            <button id="month-btn" onclick="switchPeriod('month')" style="background: transparent; color: #6b7280; border: none; padding: 12px 24px; border-radius: 24px; font-weight: 600; cursor: pointer; font-size: 14px; transition: all 0.3s ease;">This Month</button>
+        </div>
+    </div>
+    <div class="themes-grid">
+        <div class="theme-card">
+            <img src="{% static 'images/Frame 1410119443 (5).png' %}" alt="Flatsome Multi-Purpose" class="theme-image">
+            <div class="theme-content">
+                <h3 class="theme-title">Flatsome - Multi-Purpose</h3>
+                <p class="theme-author">by UX-themes</p>
+                <div class="theme-meta">
+                    <div class="theme-price">₹1,064</div>
+                    <div class="theme-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="rating-count">6</span>
+                    </div>
+                </div>
+                <div class="theme-sales">205 Sales</div>
+                <div class="theme-actions">
+                    <button class="btn btn-cart" onclick="addToCart('flatsome2')"><i class="fas fa-shopping-cart"></i></button>
+                    <button class="btn btn-preview">Live Preview</button>
+                </div>
+            </div>
+        </div>
+        <div class="theme-card">
+            <img src="{% static 'images/Frame 1410119443 (6).png' %}" alt="Avada Website Builder" class="theme-image">
+            <div class="theme-content">
+                <h3 class="theme-title">Avada - Website Builder For</h3>
+                <p class="theme-author">by UX-themes</p>
+                <div class="theme-meta">
+                    <div class="theme-price">₹1,685</div>
+                    <div class="theme-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="rating-count">6</span>
+                    </div>
+                </div>
+                <div class="theme-sales">205 Sales</div>
+                <div class="theme-actions">
+                    <button class="btn btn-cart" onclick="addToCart('avada2')"><i class="fas fa-shopping-cart"></i></button>
+                    <button class="btn btn-preview">Live Preview</button>
+                </div>
+            </div>
+        </div>
+        <div class="theme-card">
+            <img src="{% static 'images/Frame 1410119443 (7).png' %}" alt="Food Delivery Website" class="theme-image">
+            <div class="theme-content">
+                <h3 class="theme-title">Food Delivery Website</h3>
+                <p class="theme-author">by UX-themes</p>
+                <div class="theme-meta">
+                    <div class="theme-price">₹2,217</div>
+                    <div class="theme-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="rating-count">6</span>
+                    </div>
+                </div>
+                <div class="theme-sales">205 Sales</div>
+                <div class="theme-actions">
+                    <button class="btn btn-cart" onclick="addToCart('food')"><i class="fas fa-shopping-cart"></i></button>
+                    <button class="btn btn-preview">Live Preview</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- New Arrivals Section -->
+<section class="section">
+    <h2 class="section-title">New Arrivals</h2>
+    <p class="section-subtitle">Fresh templates added this week</p>
+    <div class="themes-grid">
+        <div class="theme-card">
+            <img src="{% static 'images/Frame 1410119442 (1).png' %}" alt="Zenix Dashboard" class="theme-image">
+            <div class="theme-content">
+                <h3 class="theme-title">Zenix - Modern Dashboard</h3>
+                <p class="theme-author">by DexignZone</p>
+                <div class="theme-meta">
+                    <div class="theme-price">₹8,778</div>
+                    <div class="theme-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="rating-count">(205)</span>
+                    </div>
+                </div>
+                <div class="theme-sales">205 Sales</div>
+                <div class="theme-actions">
+                    <button class="btn btn-cart" onclick="addToCart('zenix')"><i class="fas fa-shopping-cart"></i></button>
+                    <button class="btn btn-preview">Live Preview</button>
+                </div>
+            </div>
+        </div>
+        <div class="theme-card">
+            <img src="{% static 'images/Frame 1410119443 (8).png' %}" alt="ShopMaster eCommerce" class="theme-image">
+            <div class="theme-content">
+                <h3 class="theme-title">ShopMaster - Ultimate eCommerce</h3>
+                <p class="theme-author">by ThemePure</p>
+                <div class="theme-meta">
+                    <div class="theme-price">₹3,192</div>
+                    <div class="theme-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="rating-count">(205)</span>
+                    </div>
+                </div>
+                <div class="theme-sales">205 Sales</div>
+                <div class="theme-actions">
+                    <button class="btn btn-cart" onclick="addToCart('shopmaster2')"><i class="fas fa-shopping-cart"></i></button>
+                    <button class="btn btn-preview">Live Preview</button>
+                </div>
+            </div>
+        </div>
+        <div class="theme-card">
+            <img src="{% static 'images/Frame 1410119443 (9).png' %}" alt="Blogify WordPress" class="theme-image">
+            <div class="theme-content">
+                <h3 class="theme-title">Blogify - Minimal Blog WordPress</h3>
+                <p class="theme-author">by ThemeFusion</p>
+                <div class="theme-meta">
+                    <div class="theme-price">₹2,217</div>
+                    <div class="theme-rating">
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="star">★</span>
+                        <span class="rating-count">(205)</span>
+                    </div>
+                </div>
+                <div class="theme-sales">205 Sales</div>
+                <div class="theme-actions">
+                    <button class="btn btn-cart" onclick="addToCart('blogify')"><i class="fas fa-shopping-cart"></i></button>
+                    <button class="btn btn-preview">Live Preview</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us Section -->
+<section class="section">
+    <h2 class="section-title">Why Choose Our Marketplace</h2>
+    <p class="section-subtitle">Everything you need to build amazing websites</p>
+    <div class="category-grid">
+        <div class="category-card">
+            <div class="category-icon" style="background: #e3f7e3;">
+                <i class="fas fa-shield-alt" style="color: #2ecc71;"></i>
+            </div>
+            <h3 class="category-title">Quality Guaranteed</h3>
+            <p class="category-count">All items are reviewed by our team to ensure the highest standards</p>
+        </div>
+        <div class="category-card">
+            <div class="category-icon" style="background: #e3f7e3;">
+                <i class="fas fa-download" style="color: #2ecc71;"></i>
+            </div>
+            <h3 class="category-title">Instant Downloads</h3>
+            <p class="category-count">Get immediate access to your purchases, no waiting required</p>
+        </div>
+        <div class="category-card">
+            <div class="category-icon" style="background: #e3f7e3;">
+                <i class="fas fa-headset" style="color: #2ecc71;"></i>
+            </div>
+            <h3 class="category-title">24/7 Support</h3>
+            <p class="category-count">Our dedicated support team is here to help you anytime</p>
+        </div>
+        <div class="category-card">
+            <div class="category-icon" style="background: #e3f7e3;">
+                <i class="fas fa-sync-alt" style="color: #2ecc71;"></i>
+            </div>
+            <h3 class="category-title">Regular Updates</h3>
+            <p class="category-count">Authors constantly update items with new features and fixes</p>
+        </div>
+        <div class="category-card">
+            <div class="category-icon" style="background: #e3f7e3;">
+                <i class="fas fa-award" style="color: #2ecc71;"></i>
+            </div>
+            <h3 class="category-title">Elite Authors</h3>
+            <p class="category-count">Work with the best designers and developers in the industry</p>
+        </div>
+        <div class="category-card">
+            <div class="category-icon" style="background: #e3f7e3;">
+                <i class="fas fa-dollar-sign" style="color: #2ecc71;"></i>
+            </div>
+            <h3 class="category-title">Great Value</h3>
+            <p class="category-count">Competitive pricing with frequent sales and special offers</p>
+        </div>
+    </div>
+</section>
+
+<!-- Customer Testimonials -->
+<section class="section">
+    <h2 class="section-title">What Our Customers Say</h2>
+    <p class="section-subtitle">Join thousands of satisfied customers</p>
+    <div class="themes-grid">
+        <div class="theme-card">
+            <div class="theme-content">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                    <img src="{% static 'images/Ellipse 504 (2).png' %}" alt="Sarah Johnson" style="border-radius: 50%; width: 60px; height: 60px;">
+                    <div>
+                        <h3 style="font-size: 1rem; font-weight: bold;">Sarah Johnson</h3>
+                        <p style="font-size: 0.85rem; color: var(--gray);">Web Developer</p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 0.25rem; margin-bottom: 1rem;">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p>The quality of themes on this marketplace is outstanding. I've built over 20 client sites using templates from here and they never disappoint.</p>
+            </div>
+        </div>
+        <div class="theme-card">
+            <div class="theme-content">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                    <img src="{% static 'images/Ellipse 504 (1).png' %}" alt="Michael Chen" style="border-radius: 50%; width: 60px; height: 60px;">
+                    <div>
+                        <h3 style="font-size: 1rem; font-weight: bold;">Michael Chen</h3>
+                        <p style="font-size: 0.85rem; color: var(--gray);">Agency Owner</p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 0.25rem; margin-bottom: 1rem;">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p>As an agency, we rely on high-quality templates to deliver projects quickly. The variety and quality here are unmatched in the industry.</p>
+            </div>
+        </div>
+        <div class="theme-card">
+            <div class="theme-content">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                    <img src="{% static 'images/Ellipse 504.png' %}" alt="Emily Rodriguez" style="border-radius: 50%; width: 60px; height: 60px;">
+                    <div>
+                        <h3 style="font-size: 1rem; font-weight: bold;">Emily Rodriguez</h3>
+                        <p style="font-size: 0.85rem; color: var(--gray);">Freelance Designer</p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 0.25rem; margin-bottom: 1rem;">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p>I love how easy it is to customize these themes. The documentation is excellent and the support from authors is fantastic.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter -->
+<section class="newsletter">
+    <h2 class="newsletter-title">Stay Updated</h2>
+    <p class="newsletter-subtitle">Get the latest themes, exclusive deals, and design inspiration delivered to your inbox weekly</p>
+    <form class="subscribe-form">
+        <input type="email" placeholder="Enter your email" class="subscribe-input">
+        <button type="submit" class="subscribe-btn">Subscribe</button>
+    </form>
+    <p class="subscribe-text">By subscribing, you agree to our Privacy Policy and consent to receive updates</p>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function handleImageError(img) {
+        const fallbackUrl = img.getAttribute('data-fallback');
+        if (fallbackUrl) {
+            img.src = fallbackUrl;
+        }
+        img.onerror = null;
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize hero images positioning
+        const heroImagesContainer = document.querySelector('.hero-images');
+        if (heroImagesContainer) {
+            const rect = heroImagesContainer.getBoundingClientRect();
+            console.log('Hero Images Container Dimensions:', {
+                width: rect.width,
+                height: rect.height
+            });
+        }
+        
+        // Newsletter form submission
+        const subscribeForm = document.querySelector('.subscribe-form');
+        if (subscribeForm) {
+            subscribeForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = this.querySelector('.subscribe-input').value;
+                if (email) {
+                    alert('Thank you for subscribing!');
+                    this.querySelector('.subscribe-input').value = '';
+                }
+            });
+        }
+    });
+    
+    // Toggle functionality for Best Sellers section
+    function switchPeriod(period) {
+        const weekBtn = document.getElementById('week-btn');
+        const monthBtn = document.getElementById('month-btn');
+        
+        if (period === 'week') {
+            weekBtn.style.background = '#4ade80';
+            weekBtn.style.color = 'white';
+            weekBtn.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+            monthBtn.style.background = 'transparent';
+            monthBtn.style.color = '#6b7280';
+            monthBtn.style.boxShadow = 'none';
+        } else {
+            monthBtn.style.background = '#4ade80';
+            monthBtn.style.color = 'white';
+            monthBtn.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+            weekBtn.style.background = 'transparent';
+            weekBtn.style.color = '#6b7280';
+            weekBtn.style.boxShadow = 'none';
+        }
+    }
+</script>
+{% endblock %}

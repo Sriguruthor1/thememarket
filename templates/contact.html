@@ -1,0 +1,534 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact - ThemeMarket{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Hero Section */
+    .hero {
+        padding: 4rem 2rem;
+        text-align: center;
+        color: white;
+        position: relative;
+        overflow: hidden;
+        background: url('{% static "images/Themes Images/b62cd5225851605.Y3JvcCw1NzUzLDQ1MDAsMTI4LDA.jpg" %}') center/cover;
+    }
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('{% static "images/Themes Images/b62cd5225851605.Y3JvcCw1NzUzLDQ1MDAsMTI4LDA.jpg" %}') center/cover;
+        opacity: 0.1;
+    }
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .hero-title {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+    }
+    .hero-subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+    }
+    .hero-search {
+        display: flex;
+        max-width: 400px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 30px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .hero-search input {
+        flex: 1;
+        padding: 1rem 1.5rem;
+        border: none;
+        outline: none;
+        font-size: 1rem;
+    }
+    .hero-search button {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 1rem 1.5rem;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    /* Get In Touch Section */
+    .contact-methods {
+        padding: 4rem 2rem;
+        background: #f8fafc;
+    }
+    .contact-methods-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    .contact-methods h2 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        color: #1e293b;
+    }
+    .contact-methods p {
+        font-size: 1.1rem;
+        color: #64748b;
+        margin-bottom: 3rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .methods-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin-bottom: 4rem;
+    }
+    .method-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        text-align: center;
+    }
+    .method-icon {
+        width: 60px;
+        height: 60px;
+        background: #e0f2fe;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        font-size: 1.5rem;
+        color: #0284c7;
+    }
+    .method-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        color: #1e293b;
+    }
+    .method-desc {
+        font-size: 0.9rem;
+        color: #64748b;
+        margin-bottom: 0.5rem;
+    }
+    .method-contact {
+        font-size: 0.9rem;
+        color: #0284c7;
+        font-weight: 600;
+    }
+
+    /* Contact Form Section */
+    .contact-form-section {
+        padding: 4rem 2rem;
+        background: white;
+    }
+    .form-container {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    .form-container h2 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        color: #1e293b;
+    }
+    .form-container p {
+        font-size: 1.1rem;
+        color: #64748b;
+        margin-bottom: 3rem;
+    }
+    .contact-form {
+        display: grid;
+        gap: 1.5rem;
+        text-align: left;
+    }
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+    .form-group label {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #1e293b;
+    }
+    .form-group input,
+    .form-group textarea {
+        padding: 1rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+        background: #7dd3fc;
+        color: white;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+        color: rgba(255,255,255,0.7);
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #0284c7;
+    }
+    .form-group textarea {
+        resize: vertical;
+        min-height: 120px;
+    }
+    .submit-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        justify-self: start;
+        transition: background-color 0.3s;
+    }
+    .submit-btn:hover {
+        background: #3cb86a;
+    }
+
+    /* FAQ Section */
+    .faq-section {
+        padding: 4rem 2rem;
+        background: #f8fafc;
+    }
+    .faq-container {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    .faq-container h2 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        color: #1e293b;
+    }
+    .faq-container p {
+        font-size: 1.1rem;
+        color: #64748b;
+        margin-bottom: 3rem;
+    }
+    .faq-item {
+        background: linear-gradient(90deg, #44107C 52.4%, #66155D 100%);
+        color: white;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .faq-question {
+        padding: 1.5rem;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+    }
+    .faq-answer {
+        padding: 0 1.5rem 1.5rem;
+        display: none;
+        color: rgba(255,255,255,0.9);
+    }
+    .faq-item.active .faq-answer {
+        display: block;
+    }
+
+    /* Support Section */
+    .support-section {
+        background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+        padding: 4rem 2rem;
+        text-align: center;
+        color: white;
+    }
+    .support-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .support-icon {
+        width: 80px;
+        height: 80px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 2rem;
+        font-size: 2rem;
+    }
+    .support-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+    }
+    .support-text {
+        font-size: 1.1rem;
+        margin-bottom: 3rem;
+        opacity: 0.9;
+        line-height: 1.6;
+    }
+    .support-features {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+    }
+    .support-feature {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+    }
+    .support-feature i {
+        color: var(--accent);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2rem;
+        }
+        .methods-grid {
+            grid-template-columns: 1fr;
+        }
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+        .support-features {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">We'd Love to Hear From You</h1>
+        <p class="hero-subtitle">Creative Solutions for Modern Brands</p>
+        <div class="hero-search">
+            <input type="text" placeholder="Search for WordPress, E-commerce...">
+            <button>Search</button>
+        </div>
+    </div>
+</section>
+
+<!-- Get In Touch Section -->
+<section class="contact-methods">
+    <div class="contact-methods-container">
+        <h2>Get In Touch</h2>
+        <p>Have questions or need assistance? We're here to help. Reach out to us through any of the following channels.</p>
+        
+        <div class="methods-grid">
+            <div class="method-card">
+                <div class="method-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <h3 class="method-title">Email Us</h3>
+                <p class="method-desc">Our team is here to help</p>
+                <p class="method-contact">support@thememarket.com</p>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-icon">
+                    <i class="fas fa-phone"></i>
+                </div>
+                <h3 class="method-title">Call Us</h3>
+                <p class="method-desc">Mon-Fri from 9am to 6pm</p>
+                <p class="method-contact">+1 (555) 123-4567</p>
+            </div>
+            
+            <div class="method-card">
+                <div class="method-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <h3 class="method-title">Live Chat</h3>
+                <p class="method-desc">Get instant support</p>
+                <p class="method-contact">Average response: 2 minutes</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Form Section -->
+<section class="contact-form-section">
+    <div class="form-container">
+        <h2>Send Us a Message</h2>
+        <p>Fill out the form below and we'll get back to you as soon as possible.</p>
+        
+        <form class="contact-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" name="firstName" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" name="lastName" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq-section">
+    <div class="faq-container">
+        <h2>Frequently Asked Questions</h2>
+        <p>Quick answers to common questions</p>
+        
+        <div class="faq-list">
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    What are your support hours?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Our support team is available Monday through Friday, 9 AM to 6 PM EST. We also offer 24/7 live chat support for urgent issues.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    How quickly will I get a response?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    We typically respond to emails within 2-4 hours during business hours. Live chat responses are usually within 2 minutes.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    Do you offer phone support?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Yes, we offer phone support for premium customers and complex technical issues. You can reach us at +1 (555) 123-4567.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    Can I schedule a demo or consultation?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Absolutely! We offer free 30-minute consultations to help you choose the right theme for your project. Contact us to schedule.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    Where is your company located?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Our headquarters is located in San Francisco, CA, but we have team members worldwide to provide 24/7 support.
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 3rem;">
+            <p style="margin-bottom: 1rem; color: #1e293b; font-weight: 600;">Still have questions?</p>
+            <button style="background: #64748b; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer;">Visit Help Center</button>
+        </div>
+    </div>
+</section>
+
+<!-- Support Section -->
+<section class="support-section">
+    <div class="support-container">
+        <div class="support-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h2 class="support-title">We're Here to Help</h2>
+        <p class="support-text">Our dedicated support team is committed to providing you with the best experience. Whether you need technical assistance, have sales questions, or just want to say hello, we're always happy to hear from you.</p>
+        
+        <div class="support-features">
+            <div class="support-feature">
+                <i class="fas fa-clock"></i>
+                <span>24-hour response time</span>
+            </div>
+            <div class="support-feature">
+                <i class="fas fa-users"></i>
+                <span>Expert support team</span>
+            </div>
+            <div class="support-feature">
+                <i class="fas fa-phone-alt"></i>
+                <span>Multiple contact options</span>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function toggleFaq(element) {
+        const faqItem = element.parentElement;
+        const icon = element.querySelector('i');
+        
+        // Close all other FAQ items
+        document.querySelectorAll('.faq-item').forEach(item => {
+            if (item !== faqItem) {
+                item.classList.remove('active');
+                item.querySelector('i').classList.remove('fa-chevron-up');
+                item.querySelector('i').classList.add('fa-chevron-down');
+            }
+        });
+        
+        // Toggle current FAQ item
+        faqItem.classList.toggle('active');
+        if (faqItem.classList.contains('active')) {
+            icon.classList.remove('fa-chevron-down');
+            icon.classList.add('fa-chevron-up');
+        } else {
+            icon.classList.remove('fa-chevron-up');
+            icon.classList.add('fa-chevron-down');
+        }
+    }
+    
+    // Form submission
+    document.querySelector('.contact-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Thank you for your message! We\'ll get back to you soon.');
+        this.reset();
+    });
+</script>
+{% endblock %}

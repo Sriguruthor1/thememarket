@@ -1,0 +1,1072 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Themes - ThemeMarket{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Hero Section */
+    .hero {
+        padding: 3rem 2rem;
+        background-color: var(--light);
+        border-bottom: 1px solid #ddd;
+    }
+    .hero-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+    }
+    .hero-content {
+        flex: 1;
+    }
+    .hero-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+        color: var(--secondary);
+    }
+    .hero-text {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        color: var(--gray);
+    }
+    .search-bar {
+        display: flex;
+        border: 2px solid #ddd;
+        border-radius: 30px;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+    }
+    .search-bar input {
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border: none;
+        outline: none;
+        font-size: 1rem;
+    }
+    .search-bar button {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        cursor: pointer;
+        font-weight: bold;
+        transition: var(--transition);
+    }
+    .search-bar button:hover {
+        background: #3cb86a;
+    }
+    .hero-image {
+        flex: 1;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+    .hero-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    /* Filters Section */
+    .filters-section {
+        padding: 3rem 2rem;
+        background-color: var(--light);
+    }
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .section-title {
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        color: var(--dark);
+    }
+    .filters-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        gap: 2rem;
+    }
+    .filters-sidebar {
+        width: 250px;
+    }
+    .filter-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        color: var(--dark);
+    }
+    .filter-dropdown {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 2px solid var(--primary);
+        border-radius: 8px;
+        background: #1e293b;
+        color: white;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .filter-dropdown i {
+        color: white;
+    }
+    .theme-grid {
+        flex: 1;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    .theme-grid.list-view {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    .theme-card.list-view {
+        display: flex;
+        flex-direction: row;
+        height: 180px;
+        position: relative;
+        padding: 1rem;
+        align-items: stretch;
+    }
+    .theme-card.list-view .theme-image {
+        width: 220px;
+        height: 160px;
+        flex-shrink: 0;
+        border-radius: 10px;
+    }
+    .theme-card.list-view .theme-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 0 1.5rem;
+        justify-content: flex-start;
+    }
+    .theme-card.list-view .theme-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 0.3rem;
+        color: #333;
+    }
+    .theme-card.list-view .theme-author {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 0.5rem;
+    }
+    .theme-card.list-view .theme-price {
+        position: absolute;
+        top: 1.5rem;
+        right: 4rem;
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #333;
+    }
+    .theme-card.list-view .theme-rating {
+        position: absolute;
+        top: 3rem;
+        right: 4rem;
+        font-size: 0.9rem;
+    }
+    .theme-card.list-view .theme-sales {
+        position: absolute;
+        top: 4.5rem;
+        right: 4rem;
+        font-size: 0.85rem;
+        color: #666;
+    }
+    .theme-card.list-view .theme-actions {
+        position: absolute;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        display: flex;
+        gap: 0.5rem;
+    }
+    .theme-card.list-view .theme-meta {
+        display: none;
+    }
+    .heart-icon {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        font-size: 1.5rem;
+        color: #ccc;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 10;
+    }
+    .heart-icon.loved {
+        color: #e74c3c;
+    }
+    .heart-icon:hover {
+        transform: scale(1.1);
+    }
+    .heart-popup {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        font-size: 2.5rem;
+        color: #e74c3c;
+        pointer-events: none;
+        opacity: 0;
+        transform: scale(0.5);
+        transition: all 0.6s ease;
+        z-index: 20;
+    }
+    .heart-popup.show {
+        opacity: 1;
+        transform: scale(1.2);
+        animation: heartPop 0.6s ease;
+    }
+    @keyframes heartPop {
+        0% { transform: scale(0.5); opacity: 0; }
+        50% { transform: scale(1.3); opacity: 1; }
+        100% { transform: scale(1.2); opacity: 0; }
+    }
+    .theme-card.list-view .theme-features {
+        margin-top: 0.5rem;
+    }
+    .theme-card.list-view .theme-feature {
+        font-size: 0.85rem;
+        color: #666;
+        margin-bottom: 0.3rem;
+    }
+    .theme-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        transition: var(--transition);
+        border: 1px solid #f1f5f9;
+    }
+    .theme-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    }
+    .theme-image {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+    }
+    .theme-content {
+        padding: 1.25rem;
+    }
+    .theme-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--dark);
+        line-height: 1.4;
+    }
+    .theme-author {
+        font-size: 0.85rem;
+        color: var(--gray);
+        margin-bottom: 0.75rem;
+    }
+    .theme-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+    }
+    .theme-price {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--primary);
+    }
+    .theme-rating {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+    .star {
+        color: #fbbf24;
+        font-size: 0.85rem;
+    }
+    .rating-count {
+        font-size: 0.8rem;
+        color: var(--gray);
+        margin-left: 0.25rem;
+    }
+    .theme-sales {
+        font-size: 0.8rem;
+        color: var(--gray);
+        margin-bottom: 1rem;
+    }
+    .theme-actions {
+        display: flex;
+        gap: 0.75rem;
+    }
+    .btn {
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        flex: 1;
+    }
+    .btn-cart {
+        background: #f8fafc;
+        color: var(--dark);
+        border: 1px solid #e2e8f0;
+    }
+    .btn-cart:hover {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+    }
+    .btn-preview {
+        background: #f8fafc;
+        color: var(--dark);
+        border: 1px solid #e2e8f0;
+    }
+    .btn-preview:hover {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+    }
+    /* Sort & View Options */
+    .sort-view-options {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .sort-dropdown {
+        position: relative;
+        padding: 0.75rem 1.5rem;
+        border: 2px solid #ddd;
+        border-radius: 30px;
+        background: white;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        min-width: 200px;
+        justify-content: space-between;
+    }
+    .sort-options {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border: 2px solid #ddd;
+        border-radius: 15px;
+        margin-top: 5px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+    .sort-option {
+        padding: 0.75rem 1.5rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        border-bottom: 1px solid #f1f5f9;
+    }
+    .sort-option:last-child {
+        border-bottom: none;
+    }
+    .sort-option:hover {
+        background-color: #f8fafc;
+    }
+    .filter-dropdown.active {
+        background: var(--primary);
+        color: white;
+    }
+    .filter-content {
+        display: none;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-top: 0.5rem;
+        padding: 1rem;
+    }
+    .filter-content.active {
+        display: block;
+    }
+    .filter-option {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+        cursor: pointer;
+    }
+    .filter-option input {
+        margin: 0;
+    }
+    .filter-option label {
+        color: var(--dark);
+        cursor: pointer;
+    }
+    .view-toggle {
+        display: flex;
+        background: #f8fafc;
+        border-radius: 30px;
+        overflow: hidden;
+        border: 2px solid #ddd;
+    }
+    .view-toggle button {
+        padding: 0.75rem 1.5rem;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+        transition: var(--transition);
+    }
+    .view-toggle button.active {
+        background: var(--accent);
+        color: white;
+    }
+    /* Newsletter */
+    .newsletter {
+        background: #1e293b;
+        color: white;
+        padding: 3rem 2rem;
+        text-align: center;
+    }
+    .newsletter-title {
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+    }
+    .newsletter-subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+    }
+    .subscribe-form {
+        display: flex;
+        max-width: 600px;
+        margin: 0 auto;
+        gap: 0.5rem;
+    }
+    .subscribe-input {
+        flex: 1;
+        padding: 0.75rem 1rem;
+        border-radius: 30px;
+        border: none;
+        outline: none;
+        font-size: 1rem;
+    }
+    .subscribe-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 30px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: var(--transition);
+    }
+    .subscribe-btn:hover {
+        background: #3cb86a;
+    }
+    .subscribe-text {
+        font-size: 0.8rem;
+        margin-top: 1rem;
+        opacity: 0.8;
+    }
+    /* Responsive */
+    @media (max-width: 768px) {
+        .hero-container {
+            flex-direction: column;
+        }
+        .hero-title {
+            font-size: 2rem;
+        }
+        .filters-container {
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .filters-sidebar {
+            width: 100%;
+        }
+        .theme-grid {
+            grid-template-columns: 1fr;
+        }
+        .subscribe-form {
+            flex-direction: column;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-container">
+        <div class="hero-content">
+            <h1 class="hero-title">WordPress Themes</h1>
+            <p class="hero-text">Discover premium WordPress themes crafted by top designers and developers. Each theme is carefully reviewed for quality, performance, and design excellence.</p>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for WordPress, E-commerce....">
+                <button>Search</button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="{% static 'images/Themes Images/89368199915f55d5ed120e1c65a0ef9c.jpg' %}" alt="WordPress Themes" onerror="this.src='{% static 'images/Frame 1410119443.png' %}'; this.onerror=null;">
+        </div>
+    </div>
+</section>
+
+<!-- Filters and Theme Grid -->
+<section class="filters-section">
+    <div class="section-header">
+        <div>
+            <h2 class="section-title">website templates compatible with WooCommerce sorted by best sellers.</h2>
+        </div>
+    </div>
+    <div class="sort-view-options">
+        <div class="sort-dropdown" onclick="toggleSortDropdown()">
+            <span id="sort-text">Best Sellers</span> <i class="fas fa-chevron-down" id="sort-icon"></i>
+            <div class="sort-options" id="sort-options" style="display: none;">
+                <div class="sort-option" onclick="selectSort('Best Sellers')">Best Sellers</div>
+                <div class="sort-option" onclick="selectSort('Most Popular')">Most Popular</div>
+                <div class="sort-option" onclick="selectSort('Newest First')">Newest First</div>
+                <div class="sort-option" onclick="selectSort('Price, Low to high')">Price, Low to high</div>
+                <div class="sort-option" onclick="selectSort('Price, high to low')">Price, high to low</div>
+            </div>
+        </div>
+        <div class="view-toggle">
+            <button class="active" onclick="switchView('grid')"><i class="fas fa-th-large"></i></button>
+            <button onclick="switchView('list')"><i class="fas fa-list"></i></button>
+        </div>
+    </div>
+    <div class="filters-container">
+        <div class="filters-sidebar">
+            <h3 class="filter-title">Filters</h3>
+            <div class="filter-group">
+                <div class="filter-dropdown" onclick="toggleFilter('category')">
+                    Category <i class="fas fa-chevron-down" id="category-icon"></i>
+                </div>
+                <div class="filter-content" id="category-content">
+                    <div class="filter-option">
+                        <input type="checkbox" id="wordpress" name="category" value="wordpress">
+                        <label for="wordpress">WordPress</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="ecommerce" name="category" value="ecommerce">
+                        <label for="ecommerce">E-commerce</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="business" name="category" value="business">
+                        <label for="business">Business</label>
+                    </div>
+                </div>
+            </div>
+            <div class="filter-group">
+                <div class="filter-dropdown" onclick="toggleFilter('price')">
+                    Price <i class="fas fa-chevron-down" id="price-icon"></i>
+                </div>
+                <div class="filter-content" id="price-content">
+                    <div class="filter-option">
+                        <input type="checkbox" id="free" name="price" value="free">
+                        <label for="free">Free</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="under50" name="price" value="under50">
+                        <label for="under50">Under $50</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="over50" name="price" value="over50">
+                        <label for="over50">$50 and above</label>
+                    </div>
+                </div>
+            </div>
+            <div class="filter-group">
+                <div class="filter-dropdown" onclick="toggleFilter('rating')">
+                    Rating <i class="fas fa-chevron-down" id="rating-icon"></i>
+                </div>
+                <div class="filter-content" id="rating-content">
+                    <div class="filter-option">
+                        <input type="checkbox" id="5star" name="rating" value="5">
+                        <label for="5star">5 Stars</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="4star" name="rating" value="4">
+                        <label for="4star">4+ Stars</label>
+                    </div>
+                </div>
+            </div>
+            <div class="filter-group">
+                <div class="filter-dropdown" onclick="toggleFilter('features')">
+                    Features <i class="fas fa-chevron-down" id="features-icon"></i>
+                </div>
+                <div class="filter-content" id="features-content">
+                    <div class="filter-option">
+                        <input type="checkbox" id="responsive" name="features" value="responsive">
+                        <label for="responsive">Responsive</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="seo" name="features" value="seo">
+                        <label for="seo">SEO Optimized</label>
+                    </div>
+                </div>
+            </div>
+            <div class="filter-group">
+                <div class="filter-dropdown" onclick="toggleFilter('compatibility')">
+                    Compatibility <i class="fas fa-chevron-down" id="compatibility-icon"></i>
+                </div>
+                <div class="filter-content" id="compatibility-content">
+                    <div class="filter-option">
+                        <input type="checkbox" id="woocommerce" name="compatibility" value="woocommerce">
+                        <label for="woocommerce">WooCommerce</label>
+                    </div>
+                    <div class="filter-option">
+                        <input type="checkbox" id="elementor" name="compatibility" value="elementor">
+                        <label for="elementor">Elementor</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="theme-grid">
+            <div class="theme-card">
+                <div class="heart-icon" onclick="toggleHeart(this)">♡</div>
+                <div class="heart-popup">♥</div>
+                <img src="{% static 'images/Frame 1410119443.png' %}" alt="Flatsome Theme" class="theme-image" onerror="this.src='{% static 'images/Themes Images/admin-dashboard-panel-free-template-ui-02.jpg' %}'; this.onerror=null;">
+                <div class="theme-content">
+                    <h3 class="theme-title">Flatsome - Multi-Purpose</h3>
+                    <p class="theme-author">by UX-themes</p>
+                    <div class="theme-features">
+                        <div class="theme-feature">1 Selling Theme</div>
+                        <div class="theme-feature">Best Customer support</div>
+                        <div class="theme-feature">New Features</div>
+                    </div>
+                    <div class="theme-meta">
+                        <div class="theme-price">$99</div>
+                        <div class="theme-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">☆</span>
+                            <span class="rating-count">(26.4K)</span>
+                        </div>
+                    </div>
+                    <div class="theme-sales">205 Sales</div>
+                    <div class="theme-actions">
+                        <button class="btn btn-cart" onclick="addToCart('flatsome')"><i class="fas fa-shopping-cart"></i></button>
+                        <button class="btn btn-preview">Live Preview</button>
+                    </div>
+                </div>
+            </div>
+            <div class="theme-card">
+                <div class="heart-icon" onclick="toggleHeart(this)">♡</div>
+                <div class="heart-popup">♥</div>
+                <img src="{% static 'images/Frame 1410119442.png' %}" alt="Restaurant Website" class="theme-image" onerror="this.src='{% static 'images/Themes Images/website-template-business-marketing.jpg' %}'; this.onerror=null;">
+                <div class="theme-content">
+                    <h3 class="theme-title">Flatsome - Multi-Purpose</h3>
+                    <p class="theme-author">by UX-themes</p>
+                    <div class="theme-meta">
+                        <div class="theme-price">$12</div>
+                        <div class="theme-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">☆</span>
+                            <span class="rating-count">6</span>
+                        </div>
+                    </div>
+                    <div class="theme-sales">205 Sales</div>
+                    <div class="theme-actions">
+                        <button class="btn btn-cart" onclick="addToCart('restaurant')"><i class="fas fa-shopping-cart"></i></button>
+                        <button class="btn btn-preview">Live Preview</button>
+                    </div>
+                </div>
+            </div>
+            <div class="theme-card">
+                <div class="heart-icon" onclick="toggleHeart(this)">♡</div>
+                <div class="heart-popup">♥</div>
+                <img src="{% static 'images/Frame 1410119443 (4).png' %}" alt="Porto Theme" class="theme-image" onerror="this.src='{% static 'images/Themes Images/65343-big.jpg' %}'; this.onerror=null;">
+                <div class="theme-content">
+                    <h3 class="theme-title">Porto - Multipurpose eCommerce</h3>
+                    <p class="theme-author">by P-THEMES</p>
+                    <div class="theme-meta">
+                        <div class="theme-price">$12</div>
+                        <div class="theme-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">☆</span>
+                            <span class="rating-count">6</span>
+                        </div>
+                    </div>
+                    <div class="theme-sales">205 Sales</div>
+                    <div class="theme-actions">
+                        <button class="btn btn-cart" onclick="addToCart('porto')"><i class="fas fa-shopping-cart"></i></button>
+                        <button class="btn btn-preview">Live Preview</button>
+                    </div>
+                </div>
+            </div>
+            <div class="theme-card">
+                <div class="heart-icon" onclick="toggleHeart(this)">♡</div>
+                <div class="heart-popup">♥</div>
+                <img src="{% static 'images/Frame 1410119443 (1).png' %}" alt="Avada Theme" class="theme-image" onerror="this.src='{% static 'images/Themes Images/b62cd5225851605.Y3JvcCw1NzUzLDQ1MDAsMTI4LDA.jpg' %}'; this.onerror=null;">
+                <div class="theme-content">
+                    <h3 class="theme-title">Avada - Website Builder For</h3>
+                    <p class="theme-author">by ThemeFusion</p>
+                    <div class="theme-meta">
+                        <div class="theme-price">$12</div>
+                        <div class="theme-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">☆</span>
+                            <span class="rating-count">6</span>
+                        </div>
+                    </div>
+                    <div class="theme-sales">205 Sales</div>
+                    <div class="theme-actions">
+                        <button class="btn btn-cart" onclick="addToCart('avada')"><i class="fas fa-shopping-cart"></i></button>
+                        <button class="btn btn-preview">Live Preview</button>
+                    </div>
+                </div>
+            </div>
+            <div class="theme-card">
+                <div class="heart-icon" onclick="toggleHeart(this)">♡</div>
+                <div class="heart-popup">♥</div>
+                <img src="{% static 'images/Frame 1410119443 (2).png' %}" alt="Salient Theme" class="theme-image">
+                <div class="theme-content">
+                    <h3 class="theme-title">Salient - Responsive Multi-Purpose</h3>
+                    <p class="theme-author">by UX-themes</p>
+                    <div class="theme-meta">
+                        <div class="theme-price">$12</div>
+                        <div class="theme-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">☆</span>
+                            <span class="rating-count">6</span>
+                        </div>
+                    </div>
+                    <div class="theme-sales">205 Sales</div>
+                    <div class="theme-actions">
+                        <button class="btn btn-cart" onclick="addToCart('salient')"><i class="fas fa-shopping-cart"></i></button>
+                        <button class="btn btn-preview">Live Preview</button>
+                    </div>
+                </div>
+            </div>
+            <div class="theme-card">
+                <div class="heart-icon" onclick="toggleHeart(this)">♡</div>
+                <div class="heart-popup">♥</div>
+                <img src="{% static 'images/Frame 1410119443 (3).png' %}" alt="Uncode Theme" class="theme-image">
+                <div class="theme-content">
+                    <h3 class="theme-title">Uncode - Creative Multiuse</h3>
+                    <p class="theme-author">by UX-themes</p>
+                    <div class="theme-meta">
+                        <div class="theme-price">$12</div>
+                        <div class="theme-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">☆</span>
+                            <span class="rating-count">6</span>
+                        </div>
+                    </div>
+                    <div class="theme-sales">205 Sales</div>
+                    <div class="theme-actions">
+                        <button class="btn btn-cart" onclick="addToCart('uncode')"><i class="fas fa-shopping-cart"></i></button>
+                        <button class="btn btn-preview">Live Preview</button>
+                    </div>
+                </div>
+            </div>
+            <div class="theme-card">
+                <div class="heart-icon" onclick="toggleHeart(this)">♡</div>
+                <div class="heart-popup">♥</div>
+                <img src="{% static 'images/Frame 1410119443 (13).png' %}" alt="Zenix Theme" class="theme-image">
+                <div class="theme-content">
+                    <h3 class="theme-title">Zenix - Modern Dashboard</h3>
+                    <p class="theme-author">by DesignZone</p>
+                    <div class="theme-meta">
+                        <div class="theme-price">$99</div>
+                        <div class="theme-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">☆</span>
+                            <span class="rating-count">6</span>
+                        </div>
+                    </div>
+                    <div class="theme-sales">205 Sales</div>
+                    <div class="theme-actions">
+                        <button class="btn btn-cart" onclick="addToCart('zenix')"><i class="fas fa-shopping-cart"></i></button>
+                        <button class="btn btn-preview">Live Preview</button>
+                    </div>
+                </div>
+            </div>
+            <div class="theme-card">
+                <div class="heart-icon" onclick="toggleHeart(this)">♡</div>
+                <div class="heart-popup">♥</div>
+                <img src="{% static 'images/Frame 1410119442 (2).png' %}" alt="ShopMaster Theme" class="theme-image">
+                <div class="theme-content">
+                    <h3 class="theme-title">ShopMaster - Ultimate eCommerce</h3>
+                    <p class="theme-author">by ThemePure</p>
+                    <div class="theme-meta">
+                        <div class="theme-price">$36</div>
+                        <div class="theme-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">☆</span>
+                            <span class="rating-count">6</span>
+                        </div>
+                    </div>
+                    <div class="theme-sales">205 Sales</div>
+                    <div class="theme-actions">
+                        <button class="btn btn-cart" onclick="addToCart('shopmaster')"><i class="fas fa-shopping-cart"></i></button>
+                        <button class="btn btn-preview">Live Preview</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter -->
+<section class="newsletter">
+    <h2 class="newsletter-title">Stay Updated</h2>
+    <p class="newsletter-subtitle">Get the latest themes, exclusive deals, and design inspiration delivered to your inbox weekly</p>
+    <form class="subscribe-form">
+        <input type="email" placeholder="Enter your email" class="subscribe-input">
+        <button type="submit" class="subscribe-btn">Subscribe</button>
+    </form>
+    <p class="subscribe-text">By subscribing, you agree to our Privacy Policy and consent to receive updates</p>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function toggleSortDropdown() {
+        const options = document.getElementById('sort-options');
+        const icon = document.getElementById('sort-icon');
+        
+        if (options.style.display === 'none' || options.style.display === '') {
+            options.style.display = 'block';
+            icon.classList.remove('fa-chevron-down');
+            icon.classList.add('fa-chevron-up');
+        } else {
+            options.style.display = 'none';
+            icon.classList.remove('fa-chevron-up');
+            icon.classList.add('fa-chevron-down');
+        }
+    }
+    
+    function selectSort(option) {
+        document.getElementById('sort-text').textContent = option;
+        document.getElementById('sort-options').style.display = 'none';
+        document.getElementById('sort-icon').classList.remove('fa-chevron-up');
+        document.getElementById('sort-icon').classList.add('fa-chevron-down');
+        
+        // Apply sorting
+        const themeGrid = document.querySelector('.theme-grid');
+        const themeCards = Array.from(themeGrid.querySelectorAll('.theme-card'));
+        
+        themeCards.sort((a, b) => {
+            const priceA = parseFloat(a.querySelector('.theme-price').textContent.replace('$', ''));
+            const priceB = parseFloat(b.querySelector('.theme-price').textContent.replace('$', ''));
+            const titleA = a.querySelector('.theme-title').textContent;
+            const titleB = b.querySelector('.theme-title').textContent;
+            
+            switch(option) {
+                case 'Price, Low to high':
+                    return priceA - priceB;
+                case 'Price, high to low':
+                    return priceB - priceA;
+                case 'Newest First':
+                    return titleA.localeCompare(titleB);
+                case 'Most Popular':
+                    return titleB.localeCompare(titleA);
+                default: // Best Sellers
+                    return 0;
+            }
+        });
+        
+        // Re-append sorted cards
+        themeCards.forEach(card => themeGrid.appendChild(card));
+    }
+    
+    function toggleFilter(filterType) {
+        const content = document.getElementById(filterType + '-content');
+        const icon = document.getElementById(filterType + '-icon');
+        const dropdown = content.previousElementSibling;
+        
+        if (content.classList.contains('active')) {
+            content.classList.remove('active');
+            dropdown.classList.remove('active');
+            icon.classList.remove('fa-chevron-up');
+            icon.classList.add('fa-chevron-down');
+        } else {
+            content.classList.add('active');
+            dropdown.classList.add('active');
+            icon.classList.remove('fa-chevron-down');
+            icon.classList.add('fa-chevron-up');
+        }
+    }
+    
+    function applyFilters() {
+        const themeCards = document.querySelectorAll('.theme-card');
+        const activeFilters = {
+            category: [],
+            price: [],
+            rating: [],
+            features: [],
+            compatibility: []
+        };
+        
+        // Collect active filters
+        Object.keys(activeFilters).forEach(filterType => {
+            const checkboxes = document.querySelectorAll(`input[name="${filterType}"]:checked`);
+            checkboxes.forEach(checkbox => {
+                activeFilters[filterType].push(checkbox.value);
+            });
+        });
+        
+        // Filter theme cards
+        themeCards.forEach(card => {
+            let shouldShow = true;
+            const title = card.querySelector('.theme-title').textContent.toLowerCase();
+            const price = parseFloat(card.querySelector('.theme-price').textContent.replace('$', ''));
+            const rating = card.querySelectorAll('.star').length;
+            
+            // Category filter
+            if (activeFilters.category.length > 0) {
+                const matchesCategory = activeFilters.category.some(cat => {
+                    if (cat === 'wordpress') return title.includes('flatsome') || title.includes('avada') || title.includes('salient');
+                    if (cat === 'ecommerce') return title.includes('porto') || title.includes('shopmaster');
+                    if (cat === 'business') return title.includes('zenix') || title.includes('uncode');
+                    return false;
+                });
+                if (!matchesCategory) shouldShow = false;
+            }
+            
+            // Price filter
+            if (activeFilters.price.length > 0) {
+                const matchesPrice = activeFilters.price.some(priceRange => {
+                    if (priceRange === 'free') return price === 0;
+                    if (priceRange === 'under50') return price > 0 && price < 50;
+                    if (priceRange === 'over50') return price >= 50;
+                    return false;
+                });
+                if (!matchesPrice) shouldShow = false;
+            }
+            
+            // Rating filter
+            if (activeFilters.rating.length > 0) {
+                const matchesRating = activeFilters.rating.some(ratingFilter => {
+                    if (ratingFilter === '5') return rating === 5;
+                    if (ratingFilter === '4') return rating >= 4;
+                    return false;
+                });
+                if (!matchesRating) shouldShow = false;
+            }
+            
+            // Features filter
+            if (activeFilters.features.length > 0) {
+                const matchesFeatures = activeFilters.features.some(feature => {
+                    if (feature === 'responsive') return true; // All themes are responsive
+                    if (feature === 'seo') return title.includes('flatsome') || title.includes('avada');
+                    return false;
+                });
+                if (!matchesFeatures) shouldShow = false;
+            }
+            
+            // Compatibility filter
+            if (activeFilters.compatibility.length > 0) {
+                const matchesCompatibility = activeFilters.compatibility.some(comp => {
+                    if (comp === 'woocommerce') return title.includes('porto') || title.includes('shopmaster') || title.includes('flatsome');
+                    if (comp === 'elementor') return title.includes('avada') || title.includes('uncode');
+                    return false;
+                });
+                if (!matchesCompatibility) shouldShow = false;
+            }
+            
+            card.style.display = shouldShow ? 'block' : 'none';
+        });
+    }
+    
+    function switchView(viewType) {
+        const themeGrid = document.querySelector('.theme-grid');
+        const themeCards = document.querySelectorAll('.theme-card');
+        const viewButtons = document.querySelectorAll('.view-toggle button');
+        
+        // Remove active class from all buttons
+        viewButtons.forEach(btn => btn.classList.remove('active'));
+        
+        if (viewType === 'list') {
+            themeGrid.classList.add('list-view');
+            themeCards.forEach(card => card.classList.add('list-view'));
+            viewButtons[1].classList.add('active');
+        } else {
+            themeGrid.classList.remove('list-view');
+            themeCards.forEach(card => card.classList.remove('list-view'));
+            viewButtons[0].classList.add('active');
+        }
+    }
+    
+    function toggleHeart(heartIcon) {
+        const popup = heartIcon.nextElementSibling;
+        
+        if (heartIcon.classList.contains('loved')) {
+            heartIcon.classList.remove('loved');
+            heartIcon.innerHTML = '♡';
+        } else {
+            heartIcon.classList.add('loved');
+            heartIcon.innerHTML = '♥';
+            
+            // Show popup animation
+            popup.classList.add('show');
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 600);
+        }
+    }
+    
+    document.addEventListener('click', function(event) {
+        const sortDropdown = document.querySelector('.sort-dropdown');
+        const sortOptions = document.getElementById('sort-options');
+        
+        if (!sortDropdown.contains(event.target)) {
+            sortOptions.style.display = 'none';
+            document.getElementById('sort-icon').classList.remove('fa-chevron-up');
+            document.getElementById('sort-icon').classList.add('fa-chevron-down');
+        }
+    });
+    
+    // Add event listeners to filter checkboxes
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterCheckboxes = document.querySelectorAll('.filter-option input[type="checkbox"]');
+        filterCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', applyFilters);
+        });
+    });
+</script>
+{% endblock %}

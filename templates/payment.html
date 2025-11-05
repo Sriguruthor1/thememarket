@@ -1,0 +1,386 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Payment - ThemeMarket{% endblock %}
+
+{% block extra_css %}
+<style>
+    .payment-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+    }
+    .payment-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        color: #1e293b;
+    }
+    .payment-grid {
+        display: grid;
+        grid-template-columns: 1fr 400px;
+        gap: 3rem;
+    }
+    .payment-form {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+    .payment-method {
+        margin-bottom: 2rem;
+    }
+    .method-option {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .method-option:hover {
+        border-color: #7c3aed;
+    }
+    .method-option.selected {
+        border-color: #7c3aed;
+        background: #f8fafc;
+    }
+    .method-radio {
+        margin-right: 1rem;
+    }
+    .method-info {
+        flex: 1;
+    }
+    .method-title {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+    }
+    .method-desc {
+        font-size: 0.9rem;
+        color: #64748b;
+    }
+    .payment-icons {
+        display: flex;
+        gap: 0.5rem;
+        margin-left: auto;
+    }
+    .payment-icon {
+        width: 40px;
+        height: 25px;
+        background: #f1f5f9;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: bold;
+        color: white;
+    }
+    .visa { background: #1a1f71; }
+    .mastercard { background: #eb001b; }
+    .maestro { background: #0099df; }
+    .paypal { background: #003087; }
+    .gpay { background: #4285f4; }
+    .card-form {
+        display: grid;
+        gap: 1rem;
+    }
+    .form-row {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 1rem;
+    }
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #374151;
+    }
+    .form-input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+    }
+    .form-input:focus {
+        outline: none;
+        border-color: #7c3aed;
+        box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+    }
+    .payment-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+    .btn {
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+    .btn-back {
+        background: #f8fafc;
+        color: #64748b;
+        border: 1px solid #e2e8f0;
+    }
+    .btn-pay {
+        background: #7CB342;
+        color: white;
+        flex: 1;
+    }
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+    .order-summary {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        height: fit-content;
+    }
+    .summary-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #f1f5f9;
+    }
+    .summary-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+    }
+    .item-count {
+        color: #64748b;
+        font-size: 0.9rem;
+    }
+    .summary-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #f8fafc;
+    }
+    .item-name {
+        color: #64748b;
+    }
+    .item-price {
+        font-weight: 600;
+    }
+    .total-section {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 2px solid #f1f5f9;
+    }
+    .total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+    .total-discount {
+        color: #4ade80;
+        font-weight: 600;
+    }
+    .final-total {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1e293b;
+    }
+    .secure-badge {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
+        color: #64748b;
+        font-size: 0.9rem;
+    }
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 3000;
+    }
+    .loading-content {
+        text-align: center;
+        color: white;
+    }
+    .spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #7CB342;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 1rem;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="payment-container">
+    <h1 class="payment-title">Select Payment Method</h1>
+    
+    <div class="payment-grid">
+        <div class="payment-form">
+            <div class="payment-method">
+                <div class="method-option selected" onclick="selectPaymentMethod(this, 'card')">
+                    <input type="radio" name="payment" value="card" class="method-radio" checked>
+                    <div class="method-info">
+                        <div class="method-title">Credit/Debit Cards</div>
+                        <div class="method-desc">Pay with your Credit / Debit Card</div>
+                    </div>
+                    <div class="payment-icons">
+                        <div class="payment-icon visa">VISA</div>
+                        <div class="payment-icon mastercard">MC</div>
+                        <div class="payment-icon maestro">M</div>
+                    </div>
+                </div>
+
+                <div class="method-option" onclick="selectPaymentMethod(this, 'bank')">
+                    <input type="radio" name="payment" value="bank" class="method-radio">
+                    <div class="method-info">
+                        <div class="method-title">Direct Bank Transfer</div>
+                        <div class="method-desc">Make payment directly through bank account.</div>
+                    </div>
+                </div>
+
+                <div class="method-option" onclick="selectPaymentMethod(this, 'other')">
+                    <input type="radio" name="payment" value="other" class="method-radio">
+                    <div class="method-info">
+                        <div class="method-title">Other Payment Methods</div>
+                        <div class="method-desc">Make payment through Gpay, Paypal, Phonepay etc</div>
+                    </div>
+                    <div class="payment-icons">
+                        <div class="payment-icon gpay">G</div>
+                        <div class="payment-icon paypal">PP</div>
+                        <div class="payment-icon" style="background: #6c5ce7;">Φ</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="cardForm" class="card-form">
+                <div class="form-group">
+                    <label class="form-label">Card Number</label>
+                    <input type="text" class="form-input" placeholder="1234 5678 9012 3456" maxlength="19">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">MM / YY</label>
+                        <input type="text" class="form-input" placeholder="MM/YY" maxlength="5">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">CVV</label>
+                        <input type="text" class="form-input" placeholder="123" maxlength="3">
+                    </div>
+                </div>
+            </div>
+
+            <div class="payment-buttons">
+                <button class="btn btn-back" onclick="window.history.back()">Back</button>
+                <button class="btn btn-pay" onclick="processPayment()">Pay Securely</button>
+            </div>
+        </div>
+
+        <div class="order-summary">
+            <div class="summary-header">
+                <h3 class="summary-title">Order Summary</h3>
+                <span class="item-count">4 items</span>
+            </div>
+
+            <div class="summary-item">
+                <span class="item-name">Wordpress Theme</span>
+                <span class="item-price">₹8,778.00</span>
+            </div>
+            <div class="summary-item">
+                <span class="item-name">Restaurant Template</span>
+                <span class="item-price">₹1,064.00</span>
+            </div>
+            <div class="summary-item">
+                <span class="item-name">Avada - Website Builder</span>
+                <span class="item-price">₹1,064.00</span>
+            </div>
+            <div class="summary-item">
+                <span class="item-name">CreativeStudio - Agency</span>
+                <span class="item-price">₹15.00</span>
+            </div>
+
+            <div class="total-section">
+                <div class="total-row">
+                    <span class="total-discount">Total discount</span>
+                    <span class="total-discount">₹6.00</span>
+                </div>
+                <div class="total-row">
+                    <span>Handling Fee</span>
+                    <span>₹0.00</span>
+                </div>
+                <div class="total-row">
+                    <span class="final-total">Total</span>
+                    <span class="final-total">US$ 191.00</span>
+                </div>
+            </div>
+
+            <div class="secure-badge">
+                <i class="fas fa-lock"></i>
+                <span>Secure Checkout</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Overlay -->
+<div id="loadingOverlay" class="loading-overlay">
+    <div class="loading-content">
+        <div class="spinner"></div>
+        <h3>Processing Payment...</h3>
+        <p>Please wait while we process your payment securely.</p>
+    </div>
+</div>
+
+<script>
+function selectPaymentMethod(element, method) {
+    document.querySelectorAll('.method-option').forEach(el => el.classList.remove('selected'));
+    element.classList.add('selected');
+    element.querySelector('input[type="radio"]').checked = true;
+    
+    const cardForm = document.getElementById('cardForm');
+    if (method === 'card') {
+        cardForm.style.display = 'block';
+    } else {
+        cardForm.style.display = 'none';
+    }
+}
+
+function processPayment() {
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    loadingOverlay.style.display = 'flex';
+    
+    // Simulate payment processing
+    setTimeout(() => {
+        window.location.href = '{% url "payment_success" %}';
+    }, 3000);
+}
+</script>
+{% endblock %}

@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us - ThemeMarket{% endblock %}
+
+{% block extra_css %}
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+    
+    .section { padding: 4rem 2rem; max-width: 1200px; margin: 0 auto; }
+    .section-title { text-align: center; font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; color: #333; }
+    .section-subtitle { text-align: center; color: #666; margin-bottom: 3rem; font-size: 1.1rem; }
+    
+    .stats-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem; }
+    .stat-card { background: white; padding: 2rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.1); border: 1px solid #f0f0f0; }
+    .stat-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .stat-card h3 { font-size: 2.5rem; color: #6a1b9a; margin-bottom: 0.5rem; }
+    .stat-card p { color: #666; font-size: 1.1rem; }
+    
+    .mission-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem; }
+    .mission-card { background: white; padding: 2rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.1); border: 1px solid #f0f0f0; }
+    .mission-icon { width: 80px; height: 80px; background: #e3f2fd; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2rem; color: #1976d2; }
+    .mission-card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: #333; }
+    .mission-card p { color: #666; line-height: 1.6; }
+    
+    .cta-banner { background: linear-gradient(135deg, #6a1b9a 0%, #8e24aa 100%); color: white; padding: 4rem 2rem; border-radius: 12px; text-align: center; margin: 2rem 0; }
+    .cta-banner h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+    .cta-banner p { font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9; }
+    .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn { padding: 1rem 2rem; border: none; border-radius: 25px; font-size: 1rem; cursor: pointer; text-decoration: none; display: inline-block; }
+    .btn:first-child { background: #4caf50; color: white; }
+    .btn-outline { background: transparent; color: white; border: 2px solid white; }
+</style>
+{% endblock %}
+
+{% block content %}
+<main>
+    <!-- Hero Section -->
+    <section class="relative py-0 bg-cover bg-center" style="background-image: url('{% static 'images/Themes Images/b62cd5225851605.Y3JvcCw1NzUzLDQ1MDAsMTI4LDA.jpg' %}'); height: 300px;">
+        <div class="absolute inset-0 bg-black bg-opacity-30"></div>
+        <div class="relative z-10 flex items-center justify-center h-full">
+            <div class="text-center text-white px-6">
+                <h2 class="text-3xl md:text-5xl font-bold mb-6">Empowering Creators Worldwide</h2>
+                <div class="max-w-md mx-auto">
+                    <form class="flex" onsubmit="performSearch(event)">
+                        <input type="text" id="searchInput" placeholder="Search for WordPress, E-commerce..." class="flex-1 px-4 py-3 rounded-l-lg text-gray-800 focus:outline-none">
+                        <button type="submit" class="bg-green-500 hover:bg-green-600 px-6 py-3 rounded-r-lg text-white font-bold transition-colors">
+                            Search
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<section class="section">
+    <h2 class="section-title">Save on UI Templates</h2>
+    <div class="stats-cards">
+        <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <h3>50K+</h3>
+            <p>Active Users</p>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">📈</div>
+            <h3>2.5M+</h3>
+            <p>Downloads</p>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">🏷️</div>
+            <h3>15K+</h3>
+            <p>Products</p>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">🌐</div>
+            <h3>150+</h3>
+            <p>Countries</p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <h2 class="section-title">Our Mission, Vision & Impact</h2>
+    <div class="mission-cards">
+        <div class="mission-card">
+            <div class="mission-icon">🎯</div>
+            <h3>Our Mission</h3>
+            <p>To democratize web design by providing high-quality, affordable templates and themes that empower creators to build stunning websites without barriers.</p>
+        </div>
+        <div class="mission-card">
+            <div class="mission-icon">👁️</div>
+            <h3>Our Vision</h3>
+            <p>To be the world's most trusted marketplace for web templates and themes, known for quality, innovation, and exceptional customer experience.</p>
+        </div>
+        <div class="mission-card">
+            <div class="mission-icon">⚙️</div>
+            <h3>Our Impact</h3>
+            <p>We've helped over 50,000 creators launch their websites, saving millions in development costs and countless hours of work.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <h2 class="section-title">Our Core Values</h2>
+    <p class="section-subtitle">The principles that guide everything we do</p>
+    <div class="mission-cards">
+        <div class="mission-card">
+            <div class="mission-icon">🎯</div>
+            <h3>Customer First</h3>
+            <p>We put our customers at the heart of everything we do, ensuring their success is our priority.</p>
+        </div>
+        <div class="mission-card">
+            <div class="mission-icon">🤝</div>
+            <h3>Quality Excellence</h3>
+            <p>We maintain the highest standards in all our products and services, never compromising on quality.</p>
+        </div>
+        <div class="mission-card">
+            <div class="mission-icon">🚀</div>
+            <h3>Innovation</h3>
+            <p>We continuously innovate and evolve to stay ahead of industry trends and customer needs.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <h2 class="section-title">Meet Our Team</h2>
+    <p class="section-subtitle">The passionate people behind the platform</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 3rem;">
+        <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); text-align: center;">
+            <img src="{% static 'images/Group 1410119542.png' %}" style="width: 100%; height: 200px; object-fit: cover;">
+            <div style="padding: 1.5rem; background: #1e293b; color: white;">
+                <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Sarah Johnson</h3>
+                <p style="color: #94a3b8; margin: 0;">CEO & Founder</p>
+            </div>
+        </div>
+        <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); text-align: center;">
+            <img src="{% static 'images/Group 1410119540.png' %}" style="width: 100%; height: 200px; object-fit: cover;">
+            <div style="padding: 1.5rem; background: #1e293b; color: white;">
+                <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Michael Chen</h3>
+                <p style="color: #94a3b8; margin: 0;">CTO</p>
+            </div>
+        </div>
+        <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); text-align: center;">
+            <img src="{% static 'images/Group 1410119484.png' %}" style="width: 100%; height: 200px; object-fit: cover;">
+            <div style="padding: 1.5rem; background: #1e293b; color: white;">
+                <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Emily Rodriguez</h3>
+                <p style="color: #94a3b8; margin: 0;">Head of Design</p>
+            </div>
+        </div>
+        <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); text-align: center;">
+            <img src="{% static 'images/Group 1410119485.png' %}" style="width: 100%; height: 200px; object-fit: cover;">
+            <div style="padding: 1.5rem; background: #1e293b; color: white;">
+                <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">David Park</h3>
+                <p style="color: #94a3b8; margin: 0;">VP of Product</p>
+            </div>
+        </div>
+        <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); text-align: center;">
+            <img src="{% static 'images/Group 1410119486.png' %}" style="width: 100%; height: 200px; object-fit: cover;">
+            <div style="padding: 1.5rem; background: #1e293b; color: white;">
+                <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">James Wilson</h3>
+                <p style="color: #94a3b8; margin: 0;">Head of Customer Success</p>
+            </div>
+        </div>
+        <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); text-align: center;">
+            <img src="{% static 'images/Group 1410119541.png' %}" style="width: 100%; height: 200px; object-fit: cover;">
+            <div style="padding: 1.5rem; background: #1e293b; color: white;">
+                <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Lisa Anderson</h3>
+                <p style="color: #94a3b8; margin: 0;">Head of Marketing</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="cta-banner">
+    <h2>Ready to Start Your Project?</h2>
+    <p>Join thousands of satisfied customers and build your dream website today</p>
+    <div class="cta-buttons">
+        <a href="{% url 'themes' %}" class="btn">Browse Themes</a>
+        <a href="{% url 'contact' %}" class="btn btn-outline">Contact Us</a>
+    </div>
+</div>
+
+<script>
+    function performSearch(event) {
+        event.preventDefault();
+        const query = document.getElementById('searchInput').value;
+        if (query.trim()) {
+            alert(`Searching for: ${query}`);
+        }
+    }
+</script>
+{% endblock %}

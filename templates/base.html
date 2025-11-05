@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ThemeMarket - Build Stunning Websites Faster{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    {% load static %}
+    <style>
+        :root {
+            --primary: #5c2dd5;
+            --secondary: #7b3fe4;
+            --accent: #4ade80;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --white: #ffffff;
+            --purple-gradient: linear-gradient(135deg, #5c2dd5, #7b3fe4);
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        /* Header */
+        header {
+            background: #431A97;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
+            height: 80px;
+            display: flex;
+            align-items: center;
+        }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            font-style: italic;
+            font-family: cursive;
+        }
+        .logo span {
+            color: var(--accent);
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        nav li {
+            margin: 0;
+        }
+        nav a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            transition: var(--transition);
+            font-size: 1rem;
+            position: relative;
+        }
+        nav a:hover, nav a.active {
+            color: white;
+        }
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent);
+        }
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-icons a, .nav-icons .icon-btn {
+            color: var(--accent);
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: var(--transition);
+            background: transparent;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            padding: 5px;
+        }
+        .nav-icons a[title="Login / Register"] {
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            font-size: 1rem;
+        }
+        .nav-icons .cart-btn {
+            font-size: 1.5rem;
+        }
+        .nav-icons a:hover, .nav-icons .icon-btn:hover {
+            color: #3cb86a;
+            transform: translateY(-2px);
+        }
+        .nav-icons i {
+            color: inherit;
+            font-size: inherit;
+        }
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4757;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .nav-icon-wrapper {
+            position: relative;
+        }
+        /* Footer */
+        footer {
+            background: #431A97;
+            color: white;
+            padding: 3rem 2rem 2rem;
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+        .footer-logo span {
+            color: var(--accent);
+        }
+        .footer-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+        .footer-links {
+            list-style: none;
+        }
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+        .footer-links a:hover {
+            color: white;
+        }
+        .social-icons {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #431A97;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        .social-icon:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-2px);
+        }
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #431A97;
+                padding: 1rem;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            
+            nav.active {
+                display: block;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-icons {
+                gap: 0.25rem;
+            }
+            
+            .nav-icons a, .nav-icons .icon-btn {
+                width: 30px;
+                height: 30px;
+                font-size: 1rem;
+            }
+        }
+        
+        /* Cart Modal */
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        .cart-modal.show {
+            display: flex;
+        }
+        .modal-content {
+            width: 616px;
+            height: 445px;
+            opacity: 1;
+            transform: rotate(0deg);
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .cart-success {
+            text-align: center;
+            padding: 32px 0 24px;
+        }
+        .cart-success .checkmark {
+            font-size: 48px;
+            color: #000;
+            margin-bottom: 12px;
+        }
+        .cart-success h2 {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0;
+            color: #000;
+        }
+        .item-summary {
+            background-color: #f5f5f5;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex: 1;
+        }
+        .item-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .item-details {
+            text-align: left;
+            flex: 1;
+        }
+        .item-details .price {
+            font-size: 36px;
+            font-weight: bold;
+            color: #000;
+            margin: 0 0 8px 0;
+        }
+        .item-details p {
+            margin: 6px 0;
+            font-size: 16px;
+            color: #333;
+            line-height: 1.4;
+        }
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 24px 24px;
+            gap: 16px;
+        }
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .btn-primary {
+            background-color: #6ECB4E;
+            color: white;
+        }
+        .btn-secondary {
+            background-color: white;
+            color: #003A70;
+            border: 1px solid #ccc;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+        }
+
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="{% url 'home' %}" class="logo">
+                {% if site_settings %}
+                    {{ site_settings.logo_text|default:"ThemeMarket" }}
+                {% else %}
+                    Theme<span>Market</span>
+                {% endif %}
+            </a>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav id="mobileNav">
+                <ul>
+                    {% for menu in navigation_menus %}
+                        <li><a href="{{ menu.url }}" class="nav-link">{{ menu.title }}</a></li>
+                    {% empty %}
+                        <li><a href="{% url 'home' %}" class="nav-link" data-page="home">Home</a></li>
+                        <li><a href="{% url 'themes' %}" class="nav-link" data-page="themes">Themes</a></li>
+                        <li><a href="{% url 'template' %}" class="nav-link" data-page="template">Templates</a></li>
+                        <li><a href="{% url 'about' %}" class="nav-link" data-page="about">About Us</a></li>
+                        <li><a href="{% url 'contact' %}" class="nav-link" data-page="contact">Contact</a></li>
+                    {% endfor %}
+                </ul>
+            </nav>
+            <div class="nav-icons">
+                <a href="#" id="loginBtn" onclick="openLoginModal()" title="Login / Register">
+                    <i class="fas fa-user"></i>
+                </a>
+                <div id="userProfile" style="display: none; position: relative;">
+                    <button class="icon-btn" onclick="toggleUserMenu()" title="User Profile" style="background: #4ade80; border-radius: 50%; width: 32px; height: 32px; font-size: 12px; font-weight: bold; color: white;" id="userInitials">
+                        
+                    </button>
+                    <div id="userMenu" style="display: none; position: absolute; top: 40px; right: 0; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 0.5rem; min-width: 120px; z-index: 1001;">
+                        <div style="padding: 0.5rem; font-size: 0.9rem; color: #64748b; border-bottom: 1px solid #f1f5f9;" id="userName">User</div>
+                        <button onclick="showMyOrders()" style="width: 100%; text-align: left; padding: 0.5rem; border: none; background: none; cursor: pointer; font-size: 0.9rem; color: #333;">My Orders</button>
+                        <button onclick="logout()" style="width: 100%; text-align: left; padding: 0.5rem; border: none; background: none; cursor: pointer; font-size: 0.9rem; color: #ef4444;">Logout</button>
+                    </div>
+                </div>
+                <div class="nav-icon-wrapper">
+                    <button class="icon-btn cart-btn" title="Shopping Cart" onclick="toggleCart()">
+                        <i class="fas fa-shopping-cart"></i>
+                    </button>
+                    <span class="cart-count" id="cartCount" style="display: none;">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+
+    {% block content %}
+    {% endblock %}
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div>
+                <div class="footer-logo">
+                    {% if site_settings %}
+                        {{ site_settings.site_name|default:"ThemeMarket" }}
+                    {% else %}
+                        ThemeMarket
+                    {% endif %}
+                </div>
+                {% if footer_sections %}
+                    {% for section in footer_sections %}
+                        {% if forloop.first %}
+                            <ul class="footer-links">
+                                {% for link in section.links.all %}
+                                    {% if link.is_active %}
+                                        <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <ul class="footer-links">
+                        <li><a href="#">All Items</a></li>
+                        <li><a href="#">WordPress Themes</a></li>
+                        <li><a href="#">HTML Templates</a></li>
+                        <li><a href="#">UI Templates</a></li>
+                        <li><a href="#">Plugins</a></li>
+                    </ul>
+                {% endif %}
+            </div>
+            {% if footer_sections %}
+                {% for section in footer_sections %}
+                    {% if not forloop.first %}
+                        <div>
+                            <h3 class="footer-title">{{ section.title }}</h3>
+                            <ul class="footer-links">
+                                {% for link in section.links.all %}
+                                    {% if link.is_active %}
+                                        <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                            {% if forloop.last %}
+                                <div class="social-icons">
+                                    {% for social in social_links %}
+                                        <a href="{{ social.url }}" class="social-icon" target="_blank">
+                                            <i class="{{ social.icon_class }}"></i>
+                                        </a>
+                                    {% empty %}
+                                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <div>
+                    <h3 class="footer-title">Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="footer-title">Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Forums</a></li>
+                        <li><a href="#">Contact Support</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="footer-title">Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">License Agreement</a></li>
+                    </ul>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="copyright">
+            © 2025 ThemeMarket. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div id="cartModal" class="cart-modal">
+        <div class="modal-content">
+            <div class="cart-success">
+                <div class="checkmark">✔</div>
+                <h2>Item added to your cart</h2>
+            </div>
+            <div class="item-summary">
+                <div class="item-image">
+                    <img id="modalItemImage" src="{% static 'images/Frame 1410119443.png' %}" alt="Product">
+                </div>
+                <div class="item-details">
+                    <div class="price" id="modalItemPrice">₹1,685</div>
+                    <p>License : Regular</p>
+                    <p>Support: 6 month support</p>
+                </div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-secondary" onclick="closeCartModal()">Keep Browsing</button>
+                <button class="btn btn-primary" onclick="goToCheckout()">Go to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="cart-modal">
+        <div style="display: flex; width: 1000px; height: 600px; background: #fff; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); border-radius: 20px; overflow: hidden; position: relative;">
+            <div style="width: 55%; background: #fff; position: relative; overflow: visible; border-top-left-radius: 20px; border-bottom-left-radius: 20px;">
+                <div style="position: absolute; width: 600px; height: 580px; left: -50px; top: -100px; background: radial-gradient(67.38% 67.38% at 36.49% 30.49%, #70BEFB 0%, #005BA5 100%); border: 3px solid #DDDBDB; border-radius: 50%;"></div>
+                <div style="position: absolute; width: 350px; height: 330px; top: 280px; left: -150px; border-radius: 50%; transform: rotate(36.29deg); background: radial-gradient(circle at center, #69a7e1, #2f72be);"></div>
+                <div style="position: absolute; width: 150px; height: 150px; bottom: 30px; left: 150px; border-radius: 50%; background: radial-gradient(circle at center, #69a7e1, #2f72be);"></div>
+                <div style="position: absolute; width: 350px; height: 330px; top: 350px; left: 700px; border-radius: 50%; border: 3px solid #DDDBDB; transform: rotate(36.29deg); background: radial-gradient(circle at center, #69a7e1, #2f72be);"></div>
+            </div>
+            <div style="padding: 30px 40px 20px 40px; flex: 1; display: flex; flex-direction: column; justify-content: flex-start; position: relative; border-top-right-radius: 20px; border-bottom-right-radius: 20px; font-family: 'Inter', sans-serif;">
+                <button onclick="closeLoginModal()" style="position: absolute; top: 25px; right: 25px; font-size: 20px; font-weight: 700; color: #111; cursor: pointer; border: none; background: transparent; line-height: 1;">&times;</button>
+                <h2 style="margin: 0 0 25px; font-weight: 700; font-size: 32px; color: #000;">Sign in</h2>
+                <form id="authForm">
+                    <input type="text" id="fullName" placeholder="Full name" style="display: block; width: 100%; padding: 15px 16px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ddd; font-family: 'Inter', sans-serif; font-size: 16px; color: #333; outline: none; box-sizing: border-box;" required>
+                    <input type="email" id="userEmail" placeholder="Email" style="display: block; width: 100%; padding: 15px 16px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ddd; font-family: 'Inter', sans-serif; font-size: 16px; color: #333; outline: none; box-sizing: border-box;" required>
+                    <label style="display: flex; align-items: center; font-size: 14px; margin-bottom: 20px; color: #111; font-weight: 500;">
+                        <input type="checkbox" id="termsCheck" style="margin-right: 8px; accent-color: #2f72be; width: 16px; height: 16px;" required>
+                        I understood the <a href="#" style="text-decoration: none; color: #5986c0;">terms & policy.</a>
+                    </label>
+                    <button type="submit" id="authButton" style="background-color: #7CB342; color: white; font-weight: 600; border: none; padding: 15px 0; font-size: 16px; width: 100%; border-radius: 8px; cursor: pointer; margin-bottom: 30px;">Create Account</button>
+                    <div style="margin: 30px 0 25px; text-align: center; font-size: 13px; color: #2a2a57; position: relative;">OR</div>
+                    <button type="button" style="width: 100%; padding: 15px 12px; border: 1px solid #ddd; border-radius: 8px; background: white; font-size: 16px; cursor: pointer; font-family: 'Inter', sans-serif; display: flex; align-items: center; justify-content: center; gap: 10px; color: #333;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 533.5 544.3" style="width: 18px; height: 18px;">
+                            <path fill="#4285F4" d="M533.5 278.4c0-19.5-1.7-38.1-4.9-56.3H272v106.7h146.9c-6.3 34-25 62.8-53.7 82v68h86.8c50.8-46.8 80-115.9 80-200.4z"/>
+                            <path fill="#34A853" d="M272 544.3c72.6 0 134-24 178.7-65.2l-86.8-68c-24 16.1-54.5 25.8-91.9 25.8-70.7 0-130.7-47.7-152.1-111.3h-89.8v69.9c44.4 87.7 135.8 149.8 241.9 149.8z"/>
+                            <path fill="#FBBC05" d="M119.9 323.5c-10.6-31.4-10.6-65.5 0-96.9v-70h-89.8c-39.4 77.9-39.4 170.2 0 248.1z"/>
+                            <path fill="#EA4335" d="M272 107c39.5-.6 77.5 14.7 106.4 42.9l79.8-79.8C394 23.2 339.4 0 272 0 165.8 0 74.4 62.1 29.9 149.8l89.8 69.9c21.4-63.6 81.4-111.3 152.1-112z"/>
+                        </svg>
+                        Sign in with Google
+                    </button>
+                </form>
+                <div style="margin-top: 28px; font-size: 15px; color: #111;">
+                    <span id="switchText">Already have an account ?</span> <a href="#" id="switchMode" style="text-decoration: none; color: #ca3a3a; font-weight: 600; margin-left: 5px;">Log in</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- My Orders Modal -->
+    <div id="ordersModal" class="cart-modal">
+        <div class="modal-content" style="width: 800px; height: 600px;">
+            <div style="padding: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem;">
+                    <h2 style="margin: 0; font-size: 1.5rem; color: #1e293b;">My Orders</h2>
+                    <button onclick="closeOrdersModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">&times;</button>
+                </div>
+                <div id="ordersList" style="max-height: 450px; overflow-y: auto;">
+                    <!-- Orders will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div id="orderDetailsModal" class="cart-modal">
+        <div class="modal-content" style="width: 600px; height: auto;">
+            <div style="padding: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem;">
+                    <h2 style="margin: 0; font-size: 1.5rem; color: #1e293b;">Order Details</h2>
+                    <button onclick="closeOrderDetailsModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">&times;</button>
+                </div>
+                <div id="orderDetailsContent">
+                    <!-- Order details will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                const linkPath = new URL(link.href).pathname;
+                if (currentPath === linkPath || (currentPath === '/' && linkPath === '/')) {
+                    link.classList.add('active');
+                }
+            });
+            
+            updateCartCount();
+            
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.addEventListener('error', function() {
+                    this.style.background = 'linear-gradient(45deg, #f0f0f0, #e0e0e0)';
+                    this.style.display = 'flex';
+                    this.style.alignItems = 'center';
+                    this.style.justifyContent = 'center';
+                    this.innerHTML = '<i class="fas fa-image" style="font-size: 2rem; color: #999;"></i>';
+                });
+            });
+        });
+        
+        function toggleCart() {
+            window.location.href = '{% url "cart" %}';
+        }
+        
+        function toggleSearch() {
+            const searchInput = document.querySelector('.search-bar input');
+            if (searchInput) {
+                searchInput.focus();
+                searchInput.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                alert('Search functionality - Coming Soon!');
+            }
+        }
+        
+        function toggleMobileMenu() {
+            const nav = document.getElementById('mobileNav');
+            nav.classList.toggle('active');
+        }
+        
+        function updateCartCount() {
+            const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+            const cartCount = cartItems.length;
+            const cartCountElement = document.getElementById('cartCount');
+            if (cartCountElement) {
+                cartCountElement.textContent = cartCount;
+                cartCountElement.style.display = cartCount === 0 ? 'none' : 'flex';
+            }
+        }
+        
+        function addToCart(itemId) {
+            // Get existing cart items
+            let cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+            
+            // Check if item already exists
+            const existingItem = cartItems.find(item => item.id === itemId);
+            if (!existingItem) {
+                // Add new item to cart
+                const items = {
+                    'flatsome': { price: '₹5,232', image: '{% static "images/Frame 1410119443.png" %}', title: 'Flatsome - Multi-Purpose' },
+                    'restaurant': { price: '₹4,345', image: '{% static "images/Frame 1410119442.png" %}', title: 'Restaurant Website' },
+                    'porto': { price: '₹1,064', image: '{% static "images/Frame 1410119443 (4).png" %}', title: 'Porto - Multipurpose eCommerce' },
+                    'avada': { price: '₹6,118', image: '{% static "images/Frame 1410119443 (1).png" %}', title: 'Avada - Website Builder' },
+                    'salient': { price: '₹1,064', image: '{% static "images/Frame 1410119443 (2).png" %}', title: 'Salient - Responsive Multi-Purpose' },
+                    'uncode': { price: '₹1,064', image: '{% static "images/Frame 1410119443 (3).png" %}', title: 'Uncode - Creative Multiuse' },
+                    'zenix': { price: '₹8,778', image: '{% static "images/Frame 1410119443 (13).png" %}', title: 'Zenix - Modern Dashboard' },
+                    'shopmaster': { price: '₹3,192', image: '{% static "images/Frame 1410119442 (2).png" %}', title: 'ShopMaster - Ultimate eCommerce' },
+                    'flatsome-template': { price: '₹8,778', image: '{% static "images/Frame 1410119443.png" %}', title: 'Flatsome - Multi-Purpose Template' },
+                    'horizon-template': { price: '₹8,778', image: '{% static "images/Themes Images/328afcdf-a9e9-4558-aa2d-7826291d57c6-cover.png" %}', title: 'Horizon - Modern Landing Page' },
+                    'adminpro-template': { price: '₹8,778', image: '{% static "images/Themes Images/admin-dashboard-panel-free-template-ui-02.jpg" %}', title: 'AdminPro - Dashboard UI Kit' },
+                    'flatsome-bestseller': { price: '₹8,778', image: '{% static "images/Themes Images/8288c5233505779.Y3JvcCwxNzUwLDEzNjgsMCwxNw.png" %}', title: 'Flatsome - Multi-Purpose Bestseller' },
+                    'food-delivery': { price: '₹8,778', image: '{% static "images/Themes Images/89368199915f55d5ed120e1c65a0ef9c.jpg" %}', title: 'Food Delivery Website' },
+                    'adminpro-bestseller': { price: '₹8,778', image: '{% static "images/Themes Images/c768a587-fba9-401a-bbbd-76d475719f4f-cover.png" %}', title: 'AdminPro - Dashboard UI Kit Bestseller' },
+                    'flatsome2': { price: '₹1,064', image: '{% static "images/Frame 1410119443 (5).png" %}', title: 'Flatsome - Multi-Purpose' },
+                    'avada2': { price: '₹1,685', image: '{% static "images/Frame 1410119443 (6).png" %}', title: 'Avada - Website Builder For' },
+                    'food': { price: '₹2,217', image: '{% static "images/Frame 1410119443 (7).png" %}', title: 'Food Delivery Website' },
+                    'business-pro': { price: '₹3,990', image: '{% static "images/Frame 1410119467.png" %}', title: 'Business Pro - Corporate' },
+                    'creative-studio': { price: '₹2,571', image: '{% static "images/Frame 1410119468.png" %}', title: 'Creative Studio - Agency' },
+                    'shopmaster-ecom': { price: '₹3,458', image: '{% static "images/Frame 1410119469.png" %}', title: 'ShopMaster - E-commerce' },
+                    'shopmaster2': { price: '₹3,192', image: '{% static "images/Frame 1410119443 (8).png" %}', title: 'ShopMaster - Ultimate eCommerce' },
+                    'blogify': { price: '₹2,217', image: '{% static "images/Frame 1410119443 (9).png" %}', title: 'Blogify - Minimal Blog WordPress' }
+                };
+                
+                const item = items[itemId] || { price: '₹1,685', image: '{% static "images/Frame 1410119443.png" %}', title: 'WordPress Theme' };
+                
+                const cartItem = {
+                    id: itemId,
+                    image: item.image,
+                    title: item.title,
+                    price: item.price,
+                    license: 'Regular License'
+                };
+                
+                cartItems.push(cartItem);
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                updateCartCount();
+                
+                // Show cart modal
+                showCartModal(itemId);
+            }
+            
+            const btn = event.target.closest('.btn-cart');
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i>';
+            btn.style.background = '#4ade80';
+            
+            setTimeout(() => {
+                btn.innerHTML = originalContent;
+                btn.style.background = '';
+            }, 1000);
+        }
+        
+        function showCartModal(itemId) {
+            console.log('Showing cart modal for itemId:', itemId);
+            const modal = document.getElementById('cartModal');
+            const itemImage = document.getElementById('modalItemImage');
+            const itemPrice = document.getElementById('modalItemPrice');
+            
+            // Set item details based on itemId
+            const items = {
+                'flatsome': { price: '₹5,232', image: '{% static "images/Frame 1410119443.png" %}' },
+                'restaurant': { price: '₹4,345', image: '{% static "images/Frame 1410119442.png" %}' },
+                'porto': { price: '₹1,064', image: '{% static "images/Frame 1410119443 (4).png" %}' },
+                'avada': { price: '₹6,118', image: '{% static "images/Frame 1410119443 (1).png" %}' },
+                'salient': { price: '₹1,064', image: '{% static "images/Frame 1410119443 (2).png" %}' },
+                'uncode': { price: '₹1,064', image: '{% static "images/Frame 1410119443 (3).png" %}' },
+                'zenix': { price: '₹8,778', image: '{% static "images/Frame 1410119443 (13).png" %}' },
+                'shopmaster': { price: '₹3,192', image: '{% static "images/Frame 1410119442 (2).png" %}' },
+                'flatsome-template': { price: '₹8,778', image: '{% static "images/Frame 1410119443.png" %}' },
+                'horizon-template': { price: '₹8,778', image: '{% static "images/Themes Images/328afcdf-a9e9-4558-aa2d-7826291d57c6-cover.png" %}' },
+                'adminpro-template': { price: '₹8,778', image: '{% static "images/Themes Images/admin-dashboard-panel-free-template-ui-02.jpg" %}' },
+                'flatsome-bestseller': { price: '₹8,778', image: '{% static "images/Themes Images/8288c5233505779.Y3JvcCwxNzUwLDEzNjgsMCwxNw.png" %}' },
+                'food-delivery': { price: '₹8,778', image: '{% static "images/Themes Images/89368199915f55d5ed120e1c65a0ef9c.jpg" %}' },
+                'adminpro-bestseller': { price: '₹8,778', image: '{% static "images/Themes Images/c768a587-fba9-401a-bbbd-76d475719f4f-cover.png" %}' },
+                'flatsome2': { price: '₹1,064', image: '{% static "images/Frame 1410119443 (5).png" %}' },
+                'avada2': { price: '₹1,685', image: '{% static "images/Frame 1410119443 (6).png" %}' },
+                'food': { price: '₹2,217', image: '{% static "images/Frame 1410119443 (7).png" %}' },
+                'business-pro': { price: '₹3,990', image: '{% static "images/Frame 1410119467.png" %}' },
+                'creative-studio': { price: '₹2,571', image: '{% static "images/Frame 1410119468.png" %}' },
+                'shopmaster-ecom': { price: '₹3,458', image: '{% static "images/Frame 1410119469.png" %}' },
+                'shopmaster2': { price: '₹3,192', image: '{% static "images/Frame 1410119443 (8).png" %}' },
+                'blogify': { price: '₹2,217', image: '{% static "images/Frame 1410119443 (9).png" %}' }
+            };
+            
+            const item = items[itemId] || { price: '₹1,685', image: '{% static "images/Frame 1410119443.png" %}' };
+            itemPrice.textContent = item.price;
+            itemImage.src = item.image;
+            
+            modal.classList.add('show');
+        }
+        
+        function closeCartModal() {
+            document.getElementById('cartModal').classList.remove('show');
+        }
+        
+        function goToCheckout() {
+            // Close modal and go to cart (item already added in addToCart function)
+            closeCartModal();
+            window.location.href = '{% url "cart" %}';
+        }
+        
+        function completePayment() {
+            const cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (cartItems.length > 0 && user) {
+                const order = {
+                    id: Date.now(),
+                    date: new Date().toLocaleDateString(),
+                    items: cartItems,
+                    total: cartItems.reduce((sum, item) => sum + parseFloat(item.price.replace('₹', '').replace(',', '')), 0),
+                    status: 'Completed'
+                };
+                
+                const userOrders = JSON.parse(localStorage.getItem(`orders_${user.email}`) || '[]');
+                userOrders.push(order);
+                localStorage.setItem(`orders_${user.email}`, JSON.stringify(userOrders));
+                localStorage.removeItem('cartItems');
+                updateCartCount();
+            }
+        }
+        
+        function showMyOrders() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (!user) return;
+            
+            const orders = JSON.parse(localStorage.getItem(`orders_${user.email}`) || '[]');
+            const ordersList = document.getElementById('ordersList');
+            
+            if (orders.length === 0) {
+                ordersList.innerHTML = '<div style="text-align: center; padding: 3rem; color: #64748b;"><i class="fas fa-shopping-bag" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i><h3>No orders yet</h3><p>Your orders will appear here after purchase</p></div>';
+            } else {
+                ordersList.innerHTML = orders.map(order => `
+                    <div onclick="showOrderDetails(${order.id})" style="border: 1px solid #f1f5f9; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'" onmouseout="this.style.boxShadow='none'">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                            <div style="font-weight: 600; color: #1e293b; font-size: 1.1rem;">Order #${order.id}</div>
+                            <div style="font-size: 0.9rem; color: #64748b;">${order.date}</div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <div style="color: #64748b; font-size: 0.9rem;">${order.items.length} item${order.items.length > 1 ? 's' : ''}</div>
+                            <div style="font-weight: 600; color: #4ade80; font-size: 1.1rem;">₹${order.total.toLocaleString('en-IN')}</div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="background: #dcfce7; color: #16a34a; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.8rem; font-weight: 600;">Payment Complete</div>
+                            <div style="color: #64748b; font-size: 0.85rem;">Ready to Use</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            document.getElementById('userMenu').style.display = 'none';
+            document.getElementById('ordersModal').classList.add('show');
+        }
+        
+        function showOrderDetails(orderId) {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            const orders = JSON.parse(localStorage.getItem(`orders_${user.email}`) || '[]');
+            const order = orders.find(o => o.id === orderId);
+            
+            if (order) {
+                const content = document.getElementById('orderDetailsContent');
+                content.innerHTML = `
+                    <div style="margin-bottom: 1.5rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span style="font-weight: 600;">Order ID:</span>
+                            <span>#${order.id}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span style="font-weight: 600;">Date:</span>
+                            <span>${order.date}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span style="font-weight: 600;">Status:</span>
+                            <span style="color: #4ade80; font-weight: 600;">${order.status}</span>
+                        </div>
+                    </div>
+                    <div style="border-top: 1px solid #f1f5f9; padding-top: 1rem;">
+                        <h3 style="margin-bottom: 1rem; color: #1e293b;">Items Purchased</h3>
+                        ${order.items.map(item => `
+                            <div style="display: flex; align-items: center; gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid #f8fafc;">
+                                <img src="${item.image}" style="width: 60px; height: 45px; border-radius: 6px; object-fit: cover;">
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; margin-bottom: 0.25rem;">${item.title}</div>
+                                    <div style="font-size: 0.85rem; color: #64748b;">${item.license}</div>
+                                </div>
+                                <div style="font-weight: 600; color: #1e293b;">${item.price}</div>
+                            </div>
+                        `).join('')}
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 1rem; border-top: 2px solid #f1f5f9;">
+                            <span style="font-size: 1.25rem; font-weight: 700;">Total:</span>
+                            <span style="font-size: 1.25rem; font-weight: 700; color: #4ade80;">₹${order.total.toLocaleString('en-IN')}</span>
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('ordersModal').classList.remove('show');
+                document.getElementById('orderDetailsModal').classList.add('show');
+            }
+        }
+        
+        function closeOrdersModal() {
+            document.getElementById('ordersModal').classList.remove('show');
+        }
+        
+        function closeOrderDetailsModal() {
+            document.getElementById('orderDetailsModal').classList.remove('show');
+            document.getElementById('ordersModal').classList.add('show');
+        }
+        
+        // Close modal when clicking outside
+        document.addEventListener('click', function(e) {
+            const cartModal = document.getElementById('cartModal');
+            const loginModal = document.getElementById('loginModal');
+            if (e.target === cartModal) {
+                closeCartModal();
+            }
+            if (e.target === loginModal) {
+                closeLoginModal();
+            }
+        });
+        
+        function openLoginModal() {
+            document.getElementById('loginModal').classList.add('show');
+        }
+        
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.remove('show');
+        }
+        
+        let isLoginMode = false;
+        
+        function toggleUserMenu() {
+            const menu = document.getElementById('userMenu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        function checkUserSession() {
+            const user = localStorage.getItem('currentUser');
+            if (user) {
+                const userData = JSON.parse(user);
+                document.getElementById('loginBtn').style.display = 'none';
+                document.getElementById('userProfile').style.display = 'block';
+                document.getElementById('userName').textContent = userData.name;
+                document.getElementById('userInitials').textContent = userData.name.substring(0, 3).toUpperCase();
+            }
+        }
+        
+        function logout() {
+            localStorage.removeItem('currentUser');
+            document.getElementById('loginBtn').style.display = 'block';
+            document.getElementById('userProfile').style.display = 'none';
+            document.getElementById('userMenu').style.display = 'none';
+        }
+        
+        document.getElementById('switchMode').addEventListener('click', function(e) {
+            e.preventDefault();
+            isLoginMode = !isLoginMode;
+            const title = document.querySelector('#loginModal h2');
+            const button = document.getElementById('authButton');
+            const nameField = document.getElementById('fullName');
+            const termsCheck = document.getElementById('termsCheck').parentElement;
+            const switchText = document.getElementById('switchText');
+            const switchLink = document.getElementById('switchMode');
+            
+            if (isLoginMode) {
+                title.textContent = 'Log in';
+                button.textContent = 'Log in';
+                nameField.style.display = 'none';
+                termsCheck.style.display = 'none';
+                switchText.textContent = "Don't have an account ?";
+                switchLink.textContent = 'Sign up';
+            } else {
+                title.textContent = 'Sign in';
+                button.textContent = 'Create Account';
+                nameField.style.display = 'block';
+                termsCheck.style.display = 'flex';
+                switchText.textContent = 'Already have an account ?';
+                switchLink.textContent = 'Log in';
+            }
+        });
+        
+        document.getElementById('authForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('fullName').value;
+            const email = document.getElementById('userEmail').value;
+            
+            if (isLoginMode) {
+                // Login logic
+                const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+                const user = users.find(u => u.email === email);
+                if (user) {
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    closeLoginModal();
+                    checkUserSession();
+                } else {
+                    alert('User not found. Please sign up first.');
+                }
+            } else {
+                // Signup logic
+                const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+                const newUser = { name, email };
+                users.push(newUser);
+                localStorage.setItem('registeredUsers', JSON.stringify(users));
+                localStorage.setItem('currentUser', JSON.stringify(newUser));
+                closeLoginModal();
+                checkUserSession();
+            }
+        });
+        
+        // Check user session on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkUserSession();
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

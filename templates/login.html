@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sign in</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+  * {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    height: 100vh;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .container {
+    display: flex;
+    width: 1000px;
+    height: 600px;
+    background: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+  }
+  .left {
+    width: 55%;
+    background: #fff;
+    position: relative;
+    overflow: visible;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+  }
+  /* Blue bubbles with radial gradient */
+  .bubble {
+    position: absolute;
+    background: radial-gradient(circle at center, #69a7e1, #2f72be);
+  }
+  /* Circular bubbles */
+  .bubble.small,
+  .bubble.corner-right {
+    border-radius: 50%;
+  }
+  /* Large bubble top-left (very big) */
+  .bubble.large {
+    width: 600px;
+    height: 580px;
+    left: -50px;
+    top: -100px;
+    background: radial-gradient(67.38% 67.38% at 36.49% 30.49%, #70BEFB 0%, #005BA5 100%);
+    border: 3px solid #DDDBDB;
+    border-radius: 50%;
+  }
+  /* Medium bubble bottom-left */
+  .bubble.medium {
+    width: 350px;
+    height: 330px;
+    top: 280px;
+    left: -150px;
+    border-radius: 50%;
+    transform: rotate(36.29deg);
+  }
+  /* Small bubble bottom center-ish */
+  .bubble.small {
+    width: 150px;
+    height: 150px;
+    bottom: 30px;
+    left: 150px;
+  }
+  /* Small bubble bottom-right corner partially visible */
+  .bubble.corner-right {
+    width: 350px;
+    height: 330px;
+    top: 350px;
+    left: 700px;
+    border-radius: 50%;
+    border: 3px solid #DDDBDB;
+    transform: rotate(36.29deg);
+  }
+
+  .right {
+    padding: 30px 40px 20px 40px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: relative;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #111;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    line-height: 1;
+  }
+
+  h2 {
+    margin: 0 0 25px;
+    font-weight: 700;
+    font-size: 32px;
+    user-select: none;
+    color: #000;
+  }
+
+  input[type="text"],
+  input[type="email"] {
+    display: block;
+    width: 100%;
+    padding: 15px 16px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    color: #333;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+
+  input[type="text"]::placeholder,
+  input[type="email"]::placeholder {
+    color: #999;
+  }
+
+  input[type="text"]:focus,
+  input[type="email"]:focus {
+    border-color: #2f72be;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    user-select: none;
+    margin-bottom: 20px;
+    color: #111;
+    font-weight: 500;
+  }
+
+  .checkbox-label input[type="checkbox"] {
+    margin-right: 8px;
+    accent-color: #2f72be;
+    width: 16px;
+    height: 16px;
+  }
+
+  .checkbox-label a {
+    text-decoration: none;
+    color: #5986c0;
+  }
+  .checkbox-label a:hover {
+    text-decoration: underline;
+  }
+
+  .btn-create {
+    background-color: #7CB342;
+    color: white;
+    font-weight: 600;
+    border: none;
+    padding: 15px 0;
+    font-size: 16px;
+    width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    user-select: none;
+  }
+  .btn-create:hover {
+    background-color: #689F38;
+  }
+
+  .divider {
+    margin: 30px 0 25px;
+    text-align: center;
+    font-size: 13px;
+    color: #2a2a57;
+    user-select: none;
+    position: relative;
+  }
+  .divider:before,
+  .divider:after {
+    content: "";
+    position: absolute;
+    top: 55%;
+    width: 40%;
+    border-bottom: 1px solid #2a2a57;
+  }
+  .divider:before {
+    left: 0;
+  }
+  .divider:after {
+    right: 0;
+  }
+
+  .btn-google {
+    width: 100%;
+    padding: 15px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    font-size: 16px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    user-select: none;
+    color: #333;
+    transition: background-color 0.2s ease;
+  }
+  .btn-google:hover {
+    background: #f8f8f8;
+  }
+
+  .btn-google svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .already {
+    margin-top: 28px;
+    font-size: 15px;
+    color: #111;
+    user-select: none;
+  }
+  .already a {
+    text-decoration: none;
+    color: #ca3a3a;
+    font-weight: 600;
+    margin-left: 5px;
+  }
+  .already a:hover {
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+  <div class="container" role="main" aria-label="Sign in form">
+    <div class="left" aria-hidden="true">
+      <div class="bubble large"></div>
+      <div class="bubble medium"></div>
+      <div class="bubble small"></div>
+      <div class="bubble corner-right"></div>
+    </div>
+    <div class="right">
+      <a href="/" class="close-btn" aria-label="Close sign in form">×</a>
+      <h2>Sign in</h2>
+      <form action="#" method="POST" onsubmit="return false;">
+        <input type="text" placeholder="Full name" name="fullname" autocomplete="name" required />
+        <input type="email" placeholder="Email" name="email" autocomplete="email" required />
+        <label class="checkbox-label">
+          <input type="checkbox" required />
+          I understood the <a href="#">terms & policy.</a>
+        </label>
+        <button class="btn-create" type="submit">Create Account</button>
+        <div class="divider">OR</div>
+        <button class="btn-google" type="button" aria-label="Sign in with Google">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 533.5 544.3" role="img" aria-hidden="true" focusable="false" >
+            <path fill="#4285F4" d="M533.5 278.4c0-19.5-1.7-38.1-4.9-56.3H272v106.7h146.9c-6.3 34-25 62.8-53.7 82v68h86.8c50.8-46.8 80-115.9 80-200.4z"/>
+            <path fill="#34A853" d="M272 544.3c72.6 0 134-24 178.7-65.2l-86.8-68c-24 16.1-54.5 25.8-91.9 25.8-70.7 0-130.7-47.7-152.1-111.3h-89.8v69.9c44.4 87.7 135.8 149.8 241.9 149.8z"/>
+            <path fill="#FBBC05" d="M119.9 323.5c-10.6-31.4-10.6-65.5 0-96.9v-70h-89.8c-39.4 77.9-39.4 170.2 0 248.1z"/>
+            <path fill="#EA4335" d="M272 107c39.5-.6 77.5 14.7 106.4 42.9l79.8-79.8C394 23.2 339.4 0 272 0 165.8 0 74.4 62.1 29.9 149.8l89.8 69.9c21.4-63.6 81.4-111.3 152.1-112z"/>
+          </svg>
+          Sign in with Google
+        </button>
+      </form>
+      <div class="already">
+        Already have an account ? <a href="#">Log in</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
